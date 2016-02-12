@@ -205,14 +205,14 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
       val hasElse = !elsep.isEmpty
       val postIf  = if (hasElse) new asm.Label else failure
 
-      genCond(condp, success, failure)
+      genCond(condp, success, failure, targetIfNoJump = success)
+      markProgramPoint(success)
 
       val thenKind      = tpeTK(thenp)
       val elseKind      = if (!hasElse) UNIT else tpeTK(elsep)
       def hasUnitBranch = (thenKind == UNIT || elseKind == UNIT) && expectedType == UNIT
       val resKind       = if (hasUnitBranch) UNIT else tpeTK(tree)
 
-      markProgramPoint(success)
       genLoad(thenp, resKind)
       if (hasElse) { bc goTo postIf }
       markProgramPoint(failure)
@@ -238,14 +238,14 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
       else if (isArrayOp(code))                genArrayOp(tree, code, expectedType)
       else if (isLogicalOp(code) || isComparisonOp(code)) {
         val success, failure, after = new asm.Label
-        genCond(tree, success, failure)
+        genCond(tree, success, failure, targetIfNoJump = success)
         // success block
-          markProgramPoint(success)
-          bc boolconst true
-          bc goTo after
+        markProgramPoint(success)
+        bc boolconst true
+        bc goTo after
         // failure block
-          markProgramPoint(failure)
-          bc boolconst false
+        markProgramPoint(failure)
+        bc boolconst false
         // after
         markProgramPoint(after)
 
@@ -1169,57 +1169,58 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
     }
 
     /* Emit code to compare the two top-most stack values using the 'op' operator. */
-    private def genCJUMP(success: asm.Label, failure: asm.Label, op: TestOp, tk: BType): Unit = {
-      if (tk.isIntSizedType) { // BOOL, BYTE, CHAR, SHORT, or INT
-        bc.emitIF_ICMP(op, success)
-      } else if (tk.isRef) { // REFERENCE(_) | ARRAY(_)
-        bc.emitIF_ACMP(op, success)
-      } else {
-        import Primitives._
-        (tk: @unchecked) match {
-          case LONG   => emit(asm.Opcodes.LCMP)
-          case FLOAT  =>
-            if (op == LT || op == LE) emit(asm.Opcodes.FCMPG)
-            else emit(asm.Opcodes.FCMPL)
-          case DOUBLE =>
-            if (op == LT || op == LE) emit(asm.Opcodes.DCMPG)
-            else emit(asm.Opcodes.DCMPL)
+    private def genCJUMP(success: asm.Label, failure: asm.Label, op: TestOp, tk: BType, targetIfNoJump: asm.Label) {
+      if (targetIfNoJump == success) genCJUMP(failure, success, op.negate, tk, targetIfNoJump)
+      else {
+        if (tk.isIntSizedType) { // BOOL, BYTE, CHAR, SHORT, or INT
+          bc.emitIF_ICMP(op, success)
+        } else if (tk.isRef) { // REFERENCE(_) | ARRAY(_)
+          bc.emitIF_ACMP(op, success)
+        } else {
+          (tk: @unchecked) match {
+            case LONG   => emit(asm.Opcodes.LCMP)
+            case FLOAT  =>
+              if (op == TestOp.LT || op == TestOp.LE) emit(asm.Opcodes.FCMPG)
+              else emit(asm.Opcodes.FCMPL)
+            case DOUBLE =>
+              if (op == TestOp.LT || op == TestOp.LE) emit(asm.Opcodes.DCMPG)
+              else emit(asm.Opcodes.DCMPL)
+          }
+          bc.emitIF(op, success)
         }
-        bc.emitIF(op, success)
+        if (targetIfNoJump != failure) bc goTo failure
       }
-      bc goTo failure
     }
 
     /* Emits code to compare (and consume) stack-top and zero using the 'op' operator */
-    private def genCZJUMP(success: asm.Label, failure: asm.Label, op: TestOp, tk: BType): Unit = {
-      import Primitives._
-
-      if (tk.isIntSizedType) { // BOOL, BYTE, CHAR, SHORT, or INT
-        bc.emitIF(op, success)
-      } else if (tk.isRef) { // REFERENCE(_) | ARRAY(_)
-        // @unchecked because references aren't compared with GT, GE, LT, LE.
-
-        (op : @unchecked) match {
-          case EQ => bc emitIFNULL    success
-          case NE => bc emitIFNONNULL success
+    private def genCZJUMP(success: asm.Label, failure: asm.Label, op: TestOp, tk: BType, targetIfNoJump: asm.Label) {
+      if (targetIfNoJump == success) genCZJUMP(failure, success, op.negate, tk, targetIfNoJump)
+      else {
+        if (tk.isIntSizedType) { // BOOL, BYTE, CHAR, SHORT, or INT
+          bc.emitIF(op, success)
+        } else if (tk.isRef) { // REFERENCE(_) | ARRAY(_)
+          op match { // references are only compared with EQ and NE
+            case TestOp.EQ => bc emitIFNULL    success
+            case TestOp.NE => bc emitIFNONNULL success
+          }
+        } else {
+          (tk: @unchecked) match {
+            case LONG   =>
+              emit(asm.Opcodes.LCONST_0)
+              emit(asm.Opcodes.LCMP)
+            case FLOAT  =>
+              emit(asm.Opcodes.FCONST_0)
+              if (op == TestOp.LT || op == TestOp.LE) emit(asm.Opcodes.FCMPG)
+              else emit(asm.Opcodes.FCMPL)
+            case DOUBLE =>
+              emit(asm.Opcodes.DCONST_0)
+              if (op == TestOp.LT || op == TestOp.LE) emit(asm.Opcodes.DCMPG)
+              else emit(asm.Opcodes.DCMPL)
+          }
+          bc.emitIF(op, success)
         }
-      } else {
-        (tk: @unchecked) match {
-          case LONG   =>
-            emit(asm.Opcodes.LCONST_0)
-            emit(asm.Opcodes.LCMP)
-          case FLOAT  =>
-            emit(asm.Opcodes.FCONST_0)
-            if (op == LT || op == LE) emit(asm.Opcodes.FCMPG)
-            else emit(asm.Opcodes.FCMPL)
-          case DOUBLE =>
-            emit(asm.Opcodes.DCONST_0)
-            if (op == LT || op == LE) emit(asm.Opcodes.DCMPG)
-            else emit(asm.Opcodes.DCMPL)
-        }
-        bc.emitIF(op, success)
+        if (targetIfNoJump != failure) bc goTo failure
       }
-      bc goTo failure
     }
 
     val testOpForPrimitive: Array[TestOp] = {
@@ -1234,29 +1235,26 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
      * Generate code for conditional expressions.
      * The jump targets success/failure of the test are `then-target` and `else-target` resp.
      */
-    private def genCond(tree: Tree, success: asm.Label, failure: asm.Label): Unit = {
+    private def genCond(tree: Tree, success: asm.Label, failure: asm.Label, targetIfNoJump: asm.Label) {
 
-      def genComparisonOp(l: Tree, r: Tree, code: Int): Unit = {
-        val op: TestOp = testOpForPrimitive(code - ScalaPrimitivesOps.ID)
-        // special-case reference (in)equality test for null (null eq x, x eq null)
-        var nonNullSide: Tree = null
-        if (ScalaPrimitivesOps.isReferenceEqualityOp(code) &&
-            { nonNullSide = ifOneIsNull(l, r); nonNullSide != null }
-        ) {
-          genLoad(nonNullSide, ObjectReference)
-          genCZJUMP(success, failure, op, ObjectReference)
-        }
-        else {
+      def genComparisonOp(l: Tree, r: Tree, code: Int) {
+        val op = testOpForPrimitive(code)
+        val nonNullSide = if (scalaPrimitives.isReferenceEqualityOp(code)) ifOneIsNull(l, r) else null
+        if (nonNullSide != null) {
+          // special-case reference (in)equality test for null (null eq x, x eq null)
+          genLoad(nonNullSide, ObjectRef)
+          genCZJUMP(success, failure, op, ObjectRef, targetIfNoJump)
+        } else {
           val tk = tpeTK(l).maxType(tpeTK(r))
           genLoad(l, tk)
           genLoad(r, tk)
-          genCJUMP(success, failure, op, tk)
+          genCJUMP(success, failure, op, tk, targetIfNoJump)
         }
       }
 
-      def default() = {
+      def loadAndTestBoolean() = {
         genLoad(tree, BOOL)
-        genCZJUMP(success, failure, Primitives.NE, BOOL)
+        genCZJUMP(success, failure, TestOp.NE, BOOL, targetIfNoJump)
       }
 
       lineNumber(tree)
@@ -1267,38 +1265,35 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
 
           // lhs and rhs of test
           lazy val Select(lhs, _) = fun
-          val rhs = if (args.isEmpty) EmptyTree else args.head; // args.isEmpty only for ZNOT
+          val rhs = if (args.isEmpty) EmptyTree else args.head // args.isEmpty only for ZNOT
 
-          def genZandOrZor(and: Boolean): Unit = { // TODO WRONG
+          def genZandOrZor(and: Boolean) {
             // reaching "keepGoing" indicates the rhs should be evaluated too (ie not short-circuited).
             val keepGoing = new asm.Label
 
-            if (and) genCond(lhs, keepGoing, failure)
-            else     genCond(lhs, success,   keepGoing)
+            if (and) genCond(lhs, keepGoing, failure, targetIfNoJump = keepGoing)
+            else     genCond(lhs, success,   keepGoing, targetIfNoJump = keepGoing)
 
             markProgramPoint(keepGoing)
-            genCond(rhs, success, failure)
+            genCond(rhs, success, failure, targetIfNoJump)
           }
 
-
-          primitives.getPrimitive(tree, lhs.tpe) match {
-            case ZNOT   => genCond(lhs, failure, success)
+          getPrimitive(fun.symbol) match {
+            case ZNOT   => genCond(lhs, failure, success, targetIfNoJump)
             case ZAND   => genZandOrZor(and = true)
             case ZOR    => genZandOrZor(and = false)
             case code   =>
-              // TODO !!!!!!!!!! isReferenceType, in the sense of TypeKind? (ie non-array, non-boxed, non-nothing, may be null)
-              if (ScalaPrimitivesOps.isUniversalEqualityOp(code) && tpeTK(lhs).isClass) {
-                // `lhs` has reference type
-                if (code == EQ) genEqEqPrimitive(lhs, rhs, success, failure)
-                else            genEqEqPrimitive(lhs, rhs, failure, success)
-              }
-              else if (ScalaPrimitivesOps.isComparisonOp(code))
+              if (scalaPrimitives.isUniversalEqualityOp(code) && tpeTK(lhs).isClass) {
+                // rewrite `==` to null tests and `equals`. not needed for arrays (`equals` is reference equality).
+                if (code == EQ) genEqEqPrimitive(lhs, rhs, success, failure, targetIfNoJump, tree.pos)
+                else            genEqEqPrimitive(lhs, rhs, failure, success, targetIfNoJump, tree.pos)
+              } else if (scalaPrimitives.isComparisonOp(code)) {
                 genComparisonOp(lhs, rhs, code)
-              else
-                default()
+              } else
+                loadAndTestBoolean()
           }
 
-        case _ => default()
+        case _ => loadAndTestBoolean()
       }
 
     } // end of genCond()
@@ -1310,7 +1305,7 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
      * @param l       left-hand-side  of the '=='
      * @param r       right-hand-side of the '=='
      */
-    def genEqEqPrimitive(l: Tree, r: Tree, success: asm.Label, failure: asm.Label): Unit = {
+    def genEqEqPrimitive(l: Tree, r: Tree, success: asm.Label, failure: asm.Label, targetIfNoJump: asm.Label, pos: Position) {
 
       /* True if the equality comparison is between values that require the use of the rich equality
        * comparator (scala.runtime.Comparator.equals). This is the case when either side of the
@@ -1321,7 +1316,7 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
       val mustUseAnyComparator: Boolean = {
         val areSameFinals = l.tpe.isFinalType && r.tpe.isFinalType && (l.tpe =:= r.tpe)
 
-        !areSameFinals && isMaybeBoxed(l.tpe.typeSymbol) && isMaybeBoxed(r.tpe.typeSymbol)
+        !areSameFinals && platform.isMaybeBoxed(l.tpe.typeSymbol) && platform.isMaybeBoxed(r.tpe.typeSymbol)
       }
 
       if (mustUseAnyComparator) {
@@ -1332,26 +1327,26 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
             else externalEqualsNumObject
           } else externalEquals
         }
-        genLoad(l, ObjectReference)
-        genLoad(r, ObjectReference)
-        genCallMethod(equalsMethod, Opcodes.Static(onInstance = false))
-        genCZJUMP(success, failure, Primitives.NE, BOOL)
-      }
-      else {
+
+        genLoad(l, ObjectRef)
+        genLoad(r, ObjectRef)
+        genCallMethod(equalsMethod, InvokeStyle.Static, pos)
+        genCZJUMP(success, failure, TestOp.NE, BOOL, targetIfNoJump)
+      } else {
         if (isNull(l)) {
           // null == expr -> expr eq null
-          genLoad(r, ObjectReference)
-          genCZJUMP(success, failure, Primitives.EQ, ObjectReference)
+          genLoad(r, ObjectRef)
+          genCZJUMP(success, failure, TestOp.EQ, ObjectRef, targetIfNoJump)
         } else if (isNull(r)) {
           // expr == null -> expr eq null
-          genLoad(l, ObjectReference)
-          genCZJUMP(success, failure, Primitives.EQ, ObjectReference)
+          genLoad(l, ObjectRef)
+          genCZJUMP(success, failure, TestOp.EQ, ObjectRef, targetIfNoJump)
         } else if (isNonNullExpr(l)) {
           // SI-7852 Avoid null check if L is statically non-null.
-          genLoad(l, ObjectReference)
-          genLoad(r, ObjectReference)
-          genCallMethod(Object_equals, Opcodes.Dynamic)
-          genCZJUMP(success, failure, Primitives.NE, BOOL)
+          genLoad(l, ObjectRef)
+          genLoad(r, ObjectRef)
+          genCallMethod(Object_equals, InvokeStyle.Virtual, pos)
+          genCZJUMP(success, failure, TestOp.NE, BOOL, targetIfNoJump)
         } else {
           // l == r -> if (l eq null) r eq null else l.equals(r)
           val eqEqTempLocal = locals.makeLocal(ObjectReference, nme_EQEQ_LOCAL_VAR.mangledString, Object_Type, r.pos)
@@ -1361,18 +1356,18 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
           genLoad(l, ObjectReference)
           genLoad(r, ObjectReference)
           locals.store(eqEqTempLocal)
-          bc dup ObjectReference
-          genCZJUMP(lNull, lNonNull, Primitives.EQ, ObjectReference)
+          bc dup ObjectRef
+          genCZJUMP(lNull, lNonNull, TestOp.EQ, ObjectRef, targetIfNoJump = lNull)
 
           markProgramPoint(lNull)
           bc drop ObjectReference
           locals.load(eqEqTempLocal)
-          genCZJUMP(success, failure, Primitives.EQ, ObjectReference)
+          genCZJUMP(success, failure, TestOp.EQ, ObjectRef, targetIfNoJump = lNonNull)
 
           markProgramPoint(lNonNull)
           locals.load(eqEqTempLocal)
-          genCallMethod(Object_equals, Opcodes.Dynamic)
-          genCZJUMP(success, failure, Primitives.NE, BOOL)
+          genCallMethod(Object_equals, InvokeStyle.Virtual, pos)
+          genCZJUMP(success, failure, TestOp.NE, BOOL, targetIfNoJump)
         }
       }
     }
