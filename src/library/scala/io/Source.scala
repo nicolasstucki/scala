@@ -32,7 +32,8 @@ object Source {
    *  @return   the Source
    */
   def fromIterable(iterable: Iterable[Char]): Source = new Source {
-    val iter = iterable.iterator
+    lazy val iter = iterable.iterator
+    iter // force `iter` to keep previous semantics
   } withReset(() => fromIterable(iterable))
 
   /** Creates a Source instance from a single character.
@@ -189,7 +190,7 @@ object Source {
  */
 abstract class Source extends Iterator[Char] {
   /** the actual iterator */
-  protected val iter: Iterator[Char]
+  protected lazy val iter: Iterator[Char]
 
   // ------ public values
 
@@ -293,8 +294,7 @@ abstract class Source extends Iterator[Char] {
   def reportError(
     pos: Int,
     msg: String,
-    out: PrintStream = Console.err)
-  {
+    out: PrintStream = Console.err) {
     nerrors += 1
     report(pos, msg, out)
   }
@@ -320,8 +320,7 @@ abstract class Source extends Iterator[Char] {
   def reportWarning(
     pos: Int,
     msg: String,
-    out: PrintStream = Console.out)
-  {
+    out: PrintStream = Console.out) {
     nwarnings += 1
     report(pos, "warning! " + msg, out)
   }
