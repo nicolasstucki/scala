@@ -68,7 +68,7 @@ trait ObservableBuffer[A] extends Buffer[A] with Publisher[Message[A] with Undoa
 
   abstract override def clear(): Unit = {
     super.clear()
-    publish(new Reset with Undoable {
+    publish(new Reset[A] with Undoable {
       def undo() { throw new UnsupportedOperationException("cannot undo") }
     })
   }

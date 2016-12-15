@@ -38,12 +38,12 @@ trait ObservableMap[A, B] extends Map[A, B] with Publisher[Message[(A, B)] with 
       case None =>
         super.+=(kv)
         publish(new Include((key, value)) with Undoable {
-          def undo = -=(key)
+          def undo(): Unit = -=(key)
         })
       case Some(old) =>
         super.+=(kv)
         publish(new Update((key, value)) with Undoable {
-          def undo = +=((key, old))
+          def undo(): Unit = +=((key, old))
         })
     }
     this
@@ -55,7 +55,7 @@ trait ObservableMap[A, B] extends Map[A, B] with Publisher[Message[(A, B)] with 
       case Some(old) =>
         super.-=(key)
         publish(new Remove((key, old)) with Undoable {
-          def undo = update(key, old)
+          def undo(): Unit = update(key, old)
         })
     }
     this
@@ -63,7 +63,7 @@ trait ObservableMap[A, B] extends Map[A, B] with Publisher[Message[(A, B)] with 
 
   abstract override def clear(): Unit = {
     super.clear()
-    publish(new Reset with Undoable {
+    publish(new Reset[(A, B)] with Undoable {
       def undo(): Unit = throw new UnsupportedOperationException("cannot undo")
     })
   }

@@ -32,7 +32,7 @@ trait ObservableSet[A] extends Set[A] with Publisher[Message[A] with Undoable]
   abstract override def +=(elem: A): this.type = {
     if (!contains(elem)) {
       super.+=(elem)
-      publish(new Include(elem) with Undoable { def undo = -=(elem) })
+      publish(new Include(elem) with Undoable { def undo(): Unit = -=(elem) })
     }
     this
   }
@@ -40,14 +40,14 @@ trait ObservableSet[A] extends Set[A] with Publisher[Message[A] with Undoable]
   abstract override def -=(elem: A): this.type = {
     if (contains(elem)) {
       super.-=(elem)
-      publish(new Remove(elem) with Undoable { def undo = +=(elem) })
+      publish(new Remove(elem) with Undoable { def undo(): Unit = +=(elem) })
     }
     this
   }
 
   abstract override def clear(): Unit = {
     super.clear()
-    publish(new Reset with Undoable {
+    publish(new Reset[A] with Undoable {
       def undo(): Unit = throw new UnsupportedOperationException("cannot undo")
     })
   }
