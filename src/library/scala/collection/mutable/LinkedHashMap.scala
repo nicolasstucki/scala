@@ -99,23 +99,23 @@ class LinkedHashMap[A, B] extends AbstractMap[A, B]
       else Iterator.empty.next()
   }
 
-  protected class FilteredKeys(p: A => Boolean) extends super.FilteredKeys(p) {
+  protected class LinkedHashMapFilteredKeys(p: A => Boolean) extends super.FilteredKeys(p) {
     override def empty = LinkedHashMap.empty
   }
 
-  override def filterKeys(p: A => Boolean): scala.collection.Map[A, B] = new FilteredKeys(p)
+  override def filterKeys(p: A => Boolean): scala.collection.Map[A, B] = new LinkedHashMapFilteredKeys(p)
 
-  protected class MappedValues[C](f: B => C) extends super.MappedValues[C](f) {
+  protected class LinkedHashMapMappedValues[C](f: B => C) extends super.MappedValues[C](f) {
     override def empty = LinkedHashMap.empty
   }
 
-  override def mapValues[C](f: B => C): scala.collection.Map[A, C] = new MappedValues(f)
+  override def mapValues[C](f: B => C): scala.collection.Map[A, C] = new LinkedHashMapMappedValues(f)
 
-  protected class DefaultKeySet extends super.DefaultKeySet {
+  protected class LinkedHashMapDefaultKeySet extends super.DefaultKeySet {
     override def empty = LinkedHashSet.empty
   }
 
-  override def keySet: scala.collection.Set[A] = new DefaultKeySet
+  override def keySet: scala.collection.Set[A] = new LinkedHashMapDefaultKeySet
 
   override def keysIterator: Iterator[A] = new AbstractIterator[A] {
     private var cur = firstEntry
