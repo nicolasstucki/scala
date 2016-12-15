@@ -185,7 +185,7 @@ trait Future[+T] extends Awaitable[T] {
    *  and throws a corresponding exception if the original future fails.
    */
   def failed: Future[Throwable] = {
-    implicit val ec = internalExecutor
+    implicit val ec: Future.InternalCallbackExecutor.type = internalExecutor
     val p = Promise[Throwable]()
     onComplete {
       case Failure(t) => p success t
@@ -356,7 +356,7 @@ trait Future[+T] extends Awaitable[T] {
    *  with the throwable stored in `that`.
    */
   def zip[U](that: Future[U]): Future[(T, U)] = {
-    implicit val ec = internalExecutor
+    implicit val ec: Future.InternalCallbackExecutor.type = internalExecutor
     val p = Promise[(T, U)]()
     onComplete {
       case f: Failure[_] => p complete f.asInstanceOf[Failure[(T, U)]]
@@ -380,7 +380,7 @@ trait Future[+T] extends Awaitable[T] {
    *  }}}
    */
   def fallbackTo[U >: T](that: Future[U]): Future[U] = {
-    implicit val ec = internalExecutor
+    implicit val ec: Future.InternalCallbackExecutor.type = internalExecutor
     val p = Promise[U]()
     onComplete {
       case s @ Success(_) => p complete s
@@ -396,7 +396,7 @@ trait Future[+T] extends Awaitable[T] {
    *  that conforms to `S`'s erased type or a `ClassCastException` otherwise.
    */
   def mapTo[S](implicit tag: ClassTag[S]): Future[S] = {
-    implicit val ec = internalExecutor
+    implicit val ec: Future.InternalCallbackExecutor.type = internalExecutor
     val boxedClass = {
       val c = tag.runtimeClass
       if (c.isPrimitive) Future.toBoxed(c) else c
