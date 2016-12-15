@@ -162,7 +162,7 @@ trait Implicits {
    *  @param undetparams undetermined type parameters
    */
   class SearchResult(val tree: Tree, val subst: TreeTypeSubstituter, val undetparams: List[Symbol]) {
-    override def toString = "SearchResult(%s, %s)".format(tree,
+    override def toString() = "SearchResult(%s, %s)".format(tree,
       if (subst.isEmpty) "" else subst)
 
     def isFailure          = false
@@ -236,7 +236,7 @@ trait Implicits {
       case _ => false
     }
     override def hashCode = name.## + pre.## + sym.##
-    override def toString = (
+    override def toString() = (
       if (tpeCache eq null) name + ": ?"
       else name + ": " + tpe
     )

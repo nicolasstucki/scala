@@ -427,7 +427,7 @@ final class StringBuilder(private val underlying: JavaStringBuilder)
    *           to obtain a StringBuilder result.
    *  @return  the current contents of this sequence as a String
    */
-  override def toString = underlying.toString
+  override def toString() = underlying.toString
 
   /** Returns a new String representing the data in this sequence.
    *

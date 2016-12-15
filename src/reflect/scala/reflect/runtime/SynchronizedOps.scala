@@ -27,7 +27,7 @@ private[reflect] trait SynchronizedOps extends internal.SymbolTable
     override def map(f: Type => Type): BaseTypeSeq = gilSynchronized { super.map(f) }
     override def exists(p: Type => Boolean): Boolean = gilSynchronized { super.exists(p) }
     override lazy val maxDepth = gilSynchronized { maxDepthOfElems }
-    override def toString = gilSynchronized { super.toString }
+    override def toString() = gilSynchronized { super.toString }
 
     override def lateMap(f: Type => Type): BaseTypeSeq =
       // only need to synchronize BaseTypeSeqs if they contain refined types

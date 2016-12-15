@@ -97,7 +97,7 @@ trait MemberHandlers {
     def resultExtractionCode(req: Request): String = ""
 
     private def shortName = this.getClass.toString split '.' last
-    override def toString = shortName + referencedNames.mkString(" (refs: ", ", ", ")")
+    override def toString() = shortName + referencedNames.mkString(" (refs: ", ", ", ")")
   }
 
   class GenericHandler(member: Tree) extends MemberHandler(member)

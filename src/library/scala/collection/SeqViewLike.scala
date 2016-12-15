@@ -39,7 +39,7 @@ trait SeqViewLike[+A,
   trait TransformedS[+B] extends SeqView[B, Coll] with super.TransformedI[B] {
     def length: Int
     def apply(idx: Int): B
-    override def toString = viewToString
+    override def toString() = viewToString
   }
 
   trait EmptyViewS extends TransformedS[Nothing] with super.EmptyViewI {

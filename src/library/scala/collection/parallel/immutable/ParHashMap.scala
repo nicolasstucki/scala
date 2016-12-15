@@ -113,7 +113,7 @@ self =>
       i < sz
     }
     def remaining = sz - i
-    override def toString = "HashTrieIterator(" + sz + ")"
+    override def toString() = "HashTrieIterator(" + sz + ")"
   }
 
   /* debug */
@@ -215,7 +215,7 @@ extends scala.collection.parallel.BucketCombiner[(K, V), ParHashMap[K, V], (K, V
     }
   }
 
-  override def toString = {
+  override def toString() = {
     "HashTrieCombiner(sz: " + size + ")"
     //"HashTrieCombiner(buckets:\n\t" + buckets.filter(_ != null).mkString("\n\t") + ")\n"
   }

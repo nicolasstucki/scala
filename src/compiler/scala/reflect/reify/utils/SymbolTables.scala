@@ -109,7 +109,7 @@ trait SymbolTables {
     private val cache = mutable.Map[SymbolTable, List[Tree]]()
     def encode: List[Tree] = cache.getOrElseUpdate(this, SymbolTable.encode(this)) map (_.duplicate)
 
-    override def toString = {
+    override def toString() = {
       val symtabString = symtab.keys.map(symName(_)).mkString(", ")
       val trueAliases = aliases.distinct.filter(entry => symName(entry._1) != entry._2)
       val aliasesString = trueAliases.map(entry => s"${symName(entry._1)} -> ${entry._2}").mkString(", ")

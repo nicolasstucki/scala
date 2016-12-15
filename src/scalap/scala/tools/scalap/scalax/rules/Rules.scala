@@ -18,7 +18,7 @@ import language.postfixOps
 
 trait Name {
   def name: String
-  override def toString = name
+  override def toString() = name
 }
 
 /** A factory for rules.

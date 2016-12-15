@@ -162,7 +162,7 @@ private[internal] trait TypeConstraints {
       tc
     }
 
-    override def toString = {
+    override def toString() = {
       val boundsStr = {
         val lo = loBounds filterNot typeIsNothing match {
           case Nil       => ""

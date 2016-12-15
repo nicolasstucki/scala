@@ -64,8 +64,8 @@ class Classfile(in: ByteArrayReader) {
     sealed abstract class PoolEntry(val tag: Int) {
       def typeString = constantTagToString(tag)
     }
-    case class UTF8(str: String) extends PoolEntry(CONSTANT_UTF8) { override def toString = "\"" + str + "\"" }
-    case class ClassRef(classId: Int) extends PoolEntry(CONSTANT_CLASS) { override def toString = "Class(%s)".format(entries(classId)) }
+    case class UTF8(str: String) extends PoolEntry(CONSTANT_UTF8) { override def toString() = "\"" + str + "\"" }
+    case class ClassRef(classId: Int) extends PoolEntry(CONSTANT_CLASS) { override def toString() = "Class(%s)".format(entries(classId)) }
     case class FieldRef(classId: Int, memberId: Int) extends PoolEntry(CONSTANT_FIELDREF)
     case class MethodRef(classId: Int, memberId: Int) extends PoolEntry(CONSTANT_METHODREF) {
       // //Method java/lang/Object."<init>":()V
@@ -112,7 +112,7 @@ class Classfile(in: ByteArrayReader) {
     lazy val length = entries.length
     def apply(x: Int) = entries(x)
     def stringOf(x: Int) = apply(x).toString
-    override def toString = (
+    override def toString() = (
       for ((x, i) <- entries.zipWithIndex ; if x != null) yield
         "const #%d = %s\t%s\n".format(i + 1, x.typeString, x)
     ).mkString
@@ -121,7 +121,7 @@ class Classfile(in: ByteArrayReader) {
   /** **/
   case class Member(field: Boolean, flags: Int, name: Int, tpe: Int, attribs: List[Attribute])
   case class Attribute(name: Int, data: Array[Byte]) {
-    override def toString = (pool(name): @unchecked) match {
+    override def toString() = (pool(name): @unchecked) match {
       case pool.UTF8(s) => s
     }
     def reader: ByteArrayReader = new ByteArrayReader(data)

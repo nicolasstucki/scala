@@ -351,7 +351,7 @@ self: ParIterableLike[T, Repr, Sequential] =>
 
   def mkString: String = seq.mkString("")
 
-  override def toString = seq.mkString(stringPrefix + "(", ", ", ")")
+  override def toString() = seq.mkString(stringPrefix + "(", ", ", ")")
 
   def canEqual(other: Any) = true
 
@@ -901,7 +901,7 @@ self: ParIterableLike[T, Repr, Sequential] =>
     def shouldSplitFurther = pit.shouldSplitFurther(self.repr, tasksupport.parallelismLevel)
     def split = pit.splitWithSignalling.map(newSubtask(_)) // default split procedure
     private[parallel] override def signalAbort = pit.abort()
-    override def toString = this.getClass.getSimpleName + "(" + pit.toString + ")(" + result + ")(supername: " + super.toString + ")"
+    override def toString() = this.getClass.getSimpleName + "(" + pit.toString + ")(" + result + ")(supername: " + super.toString + ")"
   }
 
   protected[this] trait NonDivisibleTask[R, Tp] extends StrictSplitterCheckTask[R, Tp] {
@@ -980,7 +980,7 @@ self: ParIterableLike[T, Repr, Sequential] =>
     def leaf(prevr: Option[Int]) = result = pit.count(pred)
     protected[this] def newSubtask(p: IterableSplitter[T]) = new Count(pred, p)
     override def merge(that: Count) = result = result + that.result
-    // override def toString = "CountTask(" + pittxt + ")"
+    // override def toString() = "CountTask(" + pittxt + ")"
   }
 
   protected[this] class Reduce[U >: T](op: (U, U) => U, protected[this] val pit: IterableSplitter[T])

@@ -139,15 +139,15 @@ quant)
         case _ => false
       }
     override def hashCode = value
-    override def toString = value.toString
+    override def toString() = value.toString
   }
 
   class View(val prefix: String, val phases: Seq[String], quant: => Any) extends Quantity {
-    override def toString = quant.toString
+    override def toString() = quant.toString
   }
 
   private class RelCounter(prefix: String, override val underlying: Counter) extends Counter(prefix, underlying.phases) with SubQuantity {
-    override def toString =
+    override def toString() =
       if (value == 0) "0"
       else {
         assert(underlying.value != 0, prefix+"/"+underlying.line)
@@ -161,7 +161,7 @@ quant)
       val (value0, uvalue0) = prev
       value = value0 + underlying.value - uvalue0
     }
-    override def toString =
+    override def toString() =
       value + showPercent(value.toLong, underlying.value.toLong)
   }
 
@@ -177,7 +177,7 @@ quant)
       timings += 1
     }
     protected def show(ns: Long) = s"${ns/1000000}ms"
-    override def toString = s"$timings spans, ${show(nanos)}"
+    override def toString() = s"$timings spans, ${show(nanos)}"
   }
 
   class SubTimer(prefix: String, override val underlying: Timer) extends Timer(prefix, underlying.phases) with SubQuantity {
@@ -196,7 +196,7 @@ quant)
         case _ => false
       }
     override def hashCode = specificNanos.##
-    override def toString = s"${super.toString} aggregate, ${show(specificNanos)} specific"
+    override def toString() = s"${super.toString} aggregate, ${show(specificNanos)} specific"
   }
 
   /** A mutable map quantity where missing elements are automatically inserted
@@ -209,7 +209,7 @@ quant)
       this(key) = elem
       elem
     }
-    override def toString =
+    override def toString() =
       this.toSeq.sortWith(_._2 > _._2).map {
         case (cls: Class[_], elem) =>
           s"${cls.toString.substring(cls.toString.lastIndexOf("$") + 1)}: $elem"

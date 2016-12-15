@@ -17,7 +17,7 @@ object Lexer {
    *  @param str    the characters making up this token
    */
   class Token(val str: String) {
-    override def toString = str
+    override def toString() = str
   }
 
   /** A subclass of `Token` representing single-character delimiters
@@ -33,7 +33,7 @@ object Lexer {
 
   /** A subclass of token representing string literals */
   case class StringLit(override val str: String) extends Token(str) {
-    override def toString = quoted(str)
+    override def toString() = quoted(str)
   }
 
   /** The `true` token */

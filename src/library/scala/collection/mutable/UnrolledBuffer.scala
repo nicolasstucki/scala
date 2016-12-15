@@ -344,7 +344,7 @@ object UnrolledBuffer extends ClassTagTraversableFactory[UnrolledBuffer] {
       tryMergeWithNext()
     }
 
-    override def toString = array.take(size).mkString("Unrolled[" + array.length + "](", ", ", ")") + " -> " + (if (next ne null) next.toString else "")
+    override def toString() = array.take(size).mkString("Unrolled[" + array.length + "](", ", ", ")") + " -> " + (if (next ne null) next.toString else "")
   }
 
 }

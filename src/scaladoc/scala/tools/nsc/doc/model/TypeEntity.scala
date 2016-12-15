@@ -23,5 +23,5 @@ abstract class TypeEntity {
   def refEntity: SortedMap[Int, (base.LinkTo, Int)]
 
   /** The human-readable representation of this type. */
-  override def toString = name
+  override def toString() = name
 }

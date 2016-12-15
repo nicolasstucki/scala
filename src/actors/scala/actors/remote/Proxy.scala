@@ -91,7 +91,7 @@ final class LinkToFun extends Function2[AbstractActor, Proxy, Unit] with Seriali
   def apply(target: AbstractActor, creator: Proxy) {
     target.linkTo(creator)
   }
-  override def toString =
+  override def toString() =
     "<LinkToFun>"
 }
 
@@ -99,7 +99,7 @@ final class UnlinkFromFun extends Function2[AbstractActor, Proxy, Unit] with Ser
   def apply(target: AbstractActor, creator: Proxy) {
     target.unlinkFrom(creator)
   }
-  override def toString =
+  override def toString() =
     "<UnlinkFromFun>"
 }
 
@@ -107,7 +107,7 @@ final class ExitFun(reason: AnyRef) extends Function2[AbstractActor, Proxy, Unit
   def apply(target: AbstractActor, creator: Proxy) {
     target.exit(creator, reason)
   }
-  override def toString =
+  override def toString() =
     "<ExitFun>("+reason.toString+")"
 }
 

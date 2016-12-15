@@ -136,7 +136,7 @@ trait BaseTypeSeqs {
       d
     }
 
-    override def toString = elems.mkString("BTS(", ",", ")")
+    override def toString() = elems.mkString("BTS(", ",", ")")
 
     private def typeError(msg: String): Nothing =
       throw new TypeError(
@@ -236,7 +236,7 @@ trait BaseTypeSeqs {
     override def lateMap(g: Type => Type) = orig.lateMap(x => g(f(x)))
     override def exists(p: Type => Boolean) = elems exists (x => p(f(x)))
     override protected def maxDepthOfElems: Depth = elems.map(x => typeDepth(f(x))).max
-    override def toString = elems.mkString("MBTS(", ",", ")")
+    override def toString() = elems.mkString("MBTS(", ",", ")")
   }
 
   val CyclicInheritance = new Throwable

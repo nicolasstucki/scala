@@ -22,6 +22,6 @@ abstract class TreeEntity {
   def refEntity: SortedMap[Int, (Entity, Int)]
 
   /** The human-readable representation of this abstract syntax tree. */
-  override def toString = expression
+  override def toString() = expression
 
 }

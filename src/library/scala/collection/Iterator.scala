@@ -613,7 +613,7 @@ trait Iterator[+A] extends TraversableOnce[A] {
       }
       def hasNext = it.hasNext
       def next() = it.next()
-      override def toString = "unknown-if-empty iterator"
+      override def toString() = "unknown-if-empty iterator"
     }
 
     (leading, trailing)
@@ -1195,7 +1195,7 @@ trait Iterator[+A] extends TraversableOnce[A] {
    *           whether or not the iterator is empty.
    *  @note    Reuse: $preservesIterator
    */
-  override def toString = (if (hasNext) "non-empty" else "empty")+" iterator"
+  override def toString() = (if (hasNext) "non-empty" else "empty")+" iterator"
 }
 
 /** Explicit instantiation of the `Iterator` trait to reduce class file size in subclasses. */

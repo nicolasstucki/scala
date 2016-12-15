@@ -815,7 +815,7 @@ self =>
     this.force
     super.mkString(start, sep, end)
   }
-  override def toString = super.mkString(stringPrefix + "(", ", ", ")")
+  override def toString() = super.mkString(stringPrefix + "(", ", ", ")")
 
   override def splitAt(n: Int): (Stream[A], Stream[A]) = (take(n), drop(n))
 

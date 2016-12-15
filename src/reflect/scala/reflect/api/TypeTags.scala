@@ -196,7 +196,7 @@ trait TypeTags { self: Universe =>
 
     override def hashCode = mirror.hashCode * 31 + tpe.hashCode
 
-    override def toString = "WeakTypeTag[" + tpe + "]"
+    override def toString() = "WeakTypeTag[" + tpe + "]"
   }
 
   /**
@@ -259,7 +259,7 @@ trait TypeTags { self: Universe =>
 
     override def hashCode = mirror.hashCode * 31 + tpe.hashCode
 
-    override def toString = "TypeTag[" + tpe + "]"
+    override def toString() = "TypeTag[" + tpe + "]"
   }
 
   /**

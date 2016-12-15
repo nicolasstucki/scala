@@ -34,7 +34,7 @@ trait Contexts { self: Analyzer =>
     override def implicitss: List[List[ImplicitInfo]] = Nil
     override def imports: List[ImportInfo] = Nil
     override def firstImport: Option[ImportInfo] = None
-    override def toString = "NoContext"
+    override def toString() = "NoContext"
   }
   private object RootImports {
     // Possible lists of root imports
@@ -624,7 +624,7 @@ trait Contexts { self: Analyzer =>
       case x => s"${tree.shortClass}${treeIdString}:${treeTruncated}"
     }
 
-    override def toString =
+    override def toString() =
       sm"""|Context($unit) {
            |   owner       = $owner
            |   tree        = $treeString
@@ -1475,7 +1475,7 @@ trait Contexts { self: Analyzer =>
       case that: ImportInfo => (tree == that.tree)
       case _                => false
     }
-    override def toString = tree.toString
+    override def toString() = tree.toString
   }
 
   type ImportType = global.ImportType
@@ -1579,7 +1579,7 @@ final class ContextMode private (val bits: Int) extends AnyVal {
   def inAny(required: ContextMode)        = (this & required) != NOmode
   def inNone(prohibited: ContextMode)     = (this & prohibited) == NOmode
 
-  override def toString =
+  override def toString() =
     if (bits == 0) "NOmode"
     else (contextModeNameMap filterKeys inAll).values.toList.sorted mkString " "
 }

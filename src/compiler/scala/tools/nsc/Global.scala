@@ -65,7 +65,7 @@ class Global(var currentSettings: Settings, var reporter: Reporter)
         case ClassPathRepresentationType.Recursive => new loaders.PackageLoader(recursiveClassPath)
       }
     }
-    override def toString = "compiler mirror"
+    override def toString() = "compiler mirror"
   }
   implicit val MirrorTag: ClassTag[Mirror] = ClassTag[Mirror](classOf[GlobalMirror])
 
@@ -1188,7 +1188,7 @@ class Global(var currentSettings: Settings, var reporter: Reporter)
     private var unitc: Int   = 0   // units completed this phase
 
     def size = unitbuf.size
-    override def toString = "scalac Run for:\n  " + compiledFiles.toList.sorted.mkString("\n  ")
+    override def toString() = "scalac Run for:\n  " + compiledFiles.toList.sorted.mkString("\n  ")
 
     // Calculate where to stop based on settings -Ystop-before or -Ystop-after.
     // The result is the phase to stop at BEFORE running it.

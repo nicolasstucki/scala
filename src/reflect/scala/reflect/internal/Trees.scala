@@ -1044,7 +1044,7 @@ trait Trees extends api.Trees {
       else Modifiers(flags, privateWithin, newAnns) setPositions positions
     }
 
-    override def toString = "Modifiers(%s, %s, %s)".format(flagString, annotations mkString ", ", positions)
+    override def toString() = "Modifiers(%s, %s, %s)".format(flagString, annotations mkString ", ", positions)
   }
 
   object Modifiers extends ModifiersExtractor
@@ -1527,7 +1527,7 @@ trait Trees extends api.Trees {
       case _ =>
         super.transform(tree)
     }
-    override def toString = substituterString("Symbol", "Tree", from, to)
+    override def toString() = substituterString("Symbol", "Tree", from, to)
   }
 
   /** Substitute clazz.this with `to`. `to` must be an attributed tree.

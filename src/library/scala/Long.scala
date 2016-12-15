@@ -466,7 +466,7 @@ object Long extends AnyValCompanion {
   def unbox(x: java.lang.Object): Long = x.asInstanceOf[java.lang.Long].longValue()
 
   /** The String representation of the scala.Long companion object. */
-  override def toString = "object scala.Long"
+  override def toString() = "object scala.Long"
   /** Language mandated coercions from Long to "wider" types. */
   import scala.language.implicitConversions
   implicit def long2float(x: Long): Float = x.toFloat

@@ -82,7 +82,7 @@ trait Members {
     }
 
     /** This methods returns a string representation of the ICode */
-    override def toString = "ICode '" + name.decoded + "'"
+    override def toString() = "ICode '" + name.decoded + "'"
 
     /* Compute a unique new label */
     def nextLabel: Int = {

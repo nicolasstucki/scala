@@ -62,7 +62,7 @@ object NoSourceFile extends SourceFile {
   def length                    = -1
   def offsetToLine(offset: Int) = -1
   def lineToOffset(index : Int) = -1
-  override def toString = "<no source file>"
+  override def toString() = "<no source file>"
 }
 
 object NoFile extends VirtualFile("<no file>", "<no file>")

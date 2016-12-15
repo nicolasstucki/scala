@@ -534,6 +534,6 @@ abstract class Pickler extends SubComponent {
       entries take ep foreach writeEntry
     }
 
-    override def toString = "" + rootName + " in " + rootOwner
+    override def toString() = "" + rootName + " in " + rootOwner
   }
 }

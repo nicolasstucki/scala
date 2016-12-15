@@ -87,14 +87,14 @@ trait AnnotationInfos extends api.Annotations { self: SymbolTable =>
   case class LiteralAnnotArg(const: Constant)
   extends ClassfileAnnotArg with LiteralArgumentApi {
     def value = const
-    override def toString = const.escapedStringValue
+    override def toString() = const.escapedStringValue
   }
   object LiteralAnnotArg extends LiteralArgumentExtractor
 
   /** Represents an array of classfile annotation arguments */
   case class ArrayAnnotArg(args: Array[ClassfileAnnotArg])
   extends ClassfileAnnotArg with ArrayArgumentApi {
-    override def toString = args.mkString("[", ", ", "]")
+    override def toString() = args.mkString("[", ", ", "]")
   }
   object ArrayAnnotArg extends ArrayArgumentExtractor
 
@@ -104,7 +104,7 @@ trait AnnotationInfos extends api.Annotations { self: SymbolTable =>
     // The nested annotation should not have any Scala annotation arguments
     assert(annInfo.args.isEmpty, annInfo.args)
     def annotation = annInfo
-    override def toString = annInfo.toString
+    override def toString() = annInfo.toString
   }
   object NestedAnnotArg extends NestedArgumentExtractor
 
@@ -127,7 +127,7 @@ trait AnnotationInfos extends api.Annotations { self: SymbolTable =>
    *  Details about the storage format of pickles at the bytecode level (classfile annotations) can be found in SIP-10.
    */
   case class ScalaSigBytes(bytes: Array[Byte]) extends ClassfileAnnotArg {
-    override def toString = (bytes map { byte => (byte & 0xff).toHexString }).mkString("[ ", " ", " ]")
+    override def toString() = (bytes map { byte => (byte & 0xff).toHexString }).mkString("[ ", " ", " ]")
     lazy val sevenBitsMayBeZero: Array[Byte] = {
       mapToNextModSevenBits(scala.reflect.internal.pickling.ByteCodecs.encode8to7(bytes))
     }
@@ -194,7 +194,7 @@ trait AnnotationInfos extends api.Annotations { self: SymbolTable =>
       this
     }
 
-    override def toString = completeAnnotationToString(this)
+    override def toString() = completeAnnotationToString(this)
   }
 
   private[scala] def completeAnnotationToString(annInfo: AnnotationInfo) = {
@@ -218,7 +218,7 @@ trait AnnotationInfos extends api.Annotations { self: SymbolTable =>
     def setOriginal(t: Tree): this.type         = { forcedInfo.setOriginal(t); this }
 
     // We should always be able to print things without forcing them.
-    override def toString = if (forced) forcedInfo.toString else "@<?>"
+    override def toString() = if (forced) forcedInfo.toString else "@<?>"
 
     override def pos: Position = if (forced) forcedInfo.pos else NoPosition
 

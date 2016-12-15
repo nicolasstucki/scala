@@ -258,7 +258,7 @@ trait Interface extends ast.TreeDSL {
         val (fromFiltered, toFiltered) = (from, to).zipped filter { (f, t) =>  !other.from.contains(f) }
         new Substitution(other.from ++ fromFiltered, other.to.map(apply) ++ toFiltered) // a quick benchmarking run indicates the `.map(apply)` is not too costly
       }
-      override def toString = (from.map(_.name) zip to) mkString("Substitution(", ", ", ")")
+      override def toString() = (from.map(_.name) zip to) mkString("Substitution(", ", ", ")")
     }
 
     object EmptySubstitution extends Substitution(Nil, Nil) {

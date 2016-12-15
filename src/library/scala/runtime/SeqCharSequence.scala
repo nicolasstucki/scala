@@ -16,7 +16,7 @@ final class SeqCharSequence(val xs: scala.collection.IndexedSeq[Char]) extends C
   def length: Int                                     = xs.length
   def charAt(index: Int): Char                        = xs(index)
   def subSequence(start: Int, end: Int): CharSequence = new SeqCharSequence(xs.slice(start, end))
-  override def toString = xs.mkString("")
+  override def toString() = xs.mkString("")
 }
 
 // Still need this one since the implicit class ArrayCharSequence only converts
@@ -44,7 +44,7 @@ final class ArrayCharSequence(val xs: Array[Char], start: Int, end: Int) extends
       new ArrayCharSequence(xs, start1, start1 + newlen)
     }
   }
-  override def toString = {
+  override def toString() = {
     val start = math.max(this.start, 0)
     val end = math.min(xs.length, start + length)
 

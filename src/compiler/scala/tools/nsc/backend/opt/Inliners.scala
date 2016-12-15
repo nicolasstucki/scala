@@ -600,7 +600,7 @@ abstract class Inliners extends SubComponent {
     }
 
     class IMethodInfo(val m: IMethod) {
-      override def toString = m.toString
+      override def toString() = m.toString
 
       val sym           = m.symbol
       def owner         = sym.owner

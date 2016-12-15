@@ -339,7 +339,7 @@ trait TypeDiagnostics {
       else if (sym isLess other.sym) -1
       else 1
 
-    override def toString = {
+    override def toString() = {
       """
       |tp = %s
       |tp.typeSymbol = %s

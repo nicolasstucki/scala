@@ -70,7 +70,7 @@ abstract class ICodeCheckers {
     val in: mutable.Map[BasicBlock, TypeStack]  = perRunCaches.newMap()
     val out: mutable.Map[BasicBlock, TypeStack] = perRunCaches.newMap()
     val emptyStack = new TypeStack() {
-      override def toString = "<empty>"
+      override def toString() = "<empty>"
     }
 
     /** The presence of emptyStack means that path has not yet been checked

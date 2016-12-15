@@ -466,7 +466,7 @@ object Int extends AnyValCompanion {
   def unbox(x: java.lang.Object): Int = x.asInstanceOf[java.lang.Integer].intValue()
 
   /** The String representation of the scala.Int companion object. */
-  override def toString = "object scala.Int"
+  override def toString() = "object scala.Int"
   /** Language mandated coercions from Int to "wider" types. */
   import scala.language.implicitConversions
   implicit def int2long(x: Int): Long = x.toLong

@@ -38,7 +38,7 @@ extends AbstractSet[A]
 
   override def toList: List[A] = set.toList
 
-  override def toString = set.toString
+  override def toString() = set.toString
 
   def iterator: Iterator[A] = set.iterator
 

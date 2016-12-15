@@ -32,7 +32,7 @@ object ShowPickled extends Names {
       else sys.error("%s has no name" format tagName)
 
     def tagName = tag2string(tag)
-    override def toString = "%d,%d: %s".format(num, startIndex, tagName)
+    override def toString() = "%d,%d: %s".format(num, startIndex, tagName)
   }
 
   case class PickleBufferEntryList(entries: IndexedSeq[PickleBufferEntry]) {

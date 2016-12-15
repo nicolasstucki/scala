@@ -97,5 +97,5 @@ class SynchronizedStack[A] extends Stack[A] {
    *
    *  @return the string representation of this stack.
    */
-  override def toString = synchronized { super.toString }
+  override def toString() = synchronized { super.toString }
 }

@@ -678,7 +678,7 @@ private[internal] trait TypeMaps {
       else pre1.memberType(sym).resultType //todo: this should be rolled into existential abstraction
     }
 
-    override def toString = s"AsSeenFromMap($seenFromPrefix, $seenFromClass)"
+    override def toString() = s"AsSeenFromMap($seenFromPrefix, $seenFromClass)"
   }
 
   /** A base class to compute all substitutions */

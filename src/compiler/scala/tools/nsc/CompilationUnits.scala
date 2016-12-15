@@ -94,7 +94,7 @@ trait CompilationUnits { global: Global =>
       }
       def keys: Iterable[Symbol] = map.keys
       def clear(): Unit = map.clear()
-      override def toString = map.toString
+      override def toString() = map.toString
     }
 
     // namer calls typer.computeType(rhs) on DefDef / ValDef when tpt is empty. the result

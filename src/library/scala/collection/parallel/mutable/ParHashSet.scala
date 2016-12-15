@@ -183,7 +183,7 @@ with scala.collection.mutable.FlatHashTable.HashUtils[T] {
     seedvalue = inseedvalue
     sizeMapInit(table.length)
 
-    override def toString = "AFHT(%s)".format(table.length)
+    override def toString() = "AFHT(%s)".format(table.length)
 
     def tableLength = table.length
 

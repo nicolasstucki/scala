@@ -31,7 +31,7 @@ abstract class ReachingDefinitions {
     type Stack      = List[StackPos]
 
     private def referenceEqualSet(name: String) = new ListSet[Definition] with ReferenceEquality {
-      override def toString = "<" + name + ">"
+      override def toString() = "<" + name + ">"
     }
 
     val top: Elem    = IState(referenceEqualSet("top"), Nil)

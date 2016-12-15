@@ -519,11 +519,11 @@ trait Names extends api.Names {
 
   private final class TermName_R(index0: Int, len0: Int, next0: TermName) extends TermName(index0, len0, next0) {
     protected def createCompanionName(next: TypeName): TypeName = new TypeName_R(index, len, next)
-    override def toString = new String(chrs, index, len)
+    override def toString() = new String(chrs, index, len)
   }
 
   private final class TypeName_R(index0: Int, len0: Int, next0: TypeName) extends TypeName(index0, len0, next0) {
-    override def toString = new String(chrs, index, len)
+    override def toString() = new String(chrs, index, len)
   }
 
   // SYNCNOTE: caller to constructor must synchronize if `synchronizeNames` is enabled

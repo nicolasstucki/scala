@@ -181,13 +181,13 @@ trait MatchTranslation {
         case WildcardPattern() => ""
         case pat               => s" @ $pat"
       }
-      override def toString = s"${binder.name}: $tpe_s$at_s"
+      override def toString() = s"${binder.name}: $tpe_s$at_s"
     }
 
     // a list of TreeMakers that encode `patTree`, and a list of arguments for recursive invocations of `translatePattern` to encode its subpatterns
     final case class TranslationStep(makers: List[TreeMaker], subpatterns: List[BoundTree]) {
       def merge(f: BoundTree => List[TreeMaker]): List[TreeMaker] = makers ::: (subpatterns flatMap f)
-      override def toString = if (subpatterns.isEmpty) "" else subpatterns.mkString("(", ", ", ")")
+      override def toString() = if (subpatterns.isEmpty) "" else subpatterns.mkString("(", ", ", ")")
     }
 
     /** Implement a pattern match by turning its cases (including the implicit failure case)

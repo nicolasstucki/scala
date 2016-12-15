@@ -385,7 +385,7 @@ private[collection] object FlatHashTable {
 
   private object NullSentinel {
     override def hashCode = 0
-    override def toString = "NullSentinel"
+    override def toString() = "NullSentinel"
   }
 
   /** The load factor for the hash table; must be < 500 (0.5)

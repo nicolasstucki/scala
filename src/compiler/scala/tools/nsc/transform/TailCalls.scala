@@ -127,7 +127,7 @@ abstract class TailCalls extends Transform {
         )
         logResult(msg)(method.newValue(nme.THIS, pos, SYNTHETIC) setInfo currentClass.typeOfThis)
       }
-      override def toString = s"${method.name} tparams=$tparams tailPos=$tailPos label=$label label info=${label.info}"
+      override def toString() = s"${method.name} tparams=$tparams tailPos=$tailPos label=$label label info=${label.info}"
 
       final def noTailContext() = clonedTailContext(false)
       final def yesTailContext() = clonedTailContext(true)

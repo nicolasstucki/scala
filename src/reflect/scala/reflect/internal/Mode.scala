@@ -135,7 +135,7 @@ final class Mode private (val bits: Int) extends AnyVal {
   def typingPatternNotConstructor = in(all = PATTERNmode, none = FUNmode)
   def typingPatternOrTypePat      = inAny(PATTERNmode | TYPEPATmode)
 
-  override def toString =
+  override def toString() =
     if (this == NOmode) "NOmode"
     else (modeNameMap filterKeys inAll).values.toList.sorted mkString "-"
 }

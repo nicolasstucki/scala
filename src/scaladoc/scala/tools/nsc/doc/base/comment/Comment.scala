@@ -123,7 +123,7 @@ abstract class Comment {
   /** Member group priorities */
   def groupPrio: Map[String,Int]
 
-  override def toString =
+  override def toString() =
     body.toString + "\n" +
     (authors map ("@author " + _.toString)).mkString("\n") +
     (result map ("@return " + _.toString)).mkString("\n") +

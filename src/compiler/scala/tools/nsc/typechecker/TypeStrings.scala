@@ -77,7 +77,7 @@ trait StructuredTypeStrings extends DestructureTypes {
       val pre = if (showLabel && label != "") label + " = " else ""
       pre + typeName
     }
-    override def toString = show() // + "(toString)"
+    override def toString() = show() // + "(toString)"
     private var nameInfo: LabelAndType = LabelAndType.empty
     private def modifyNameInfo(f: LabelAndType => LabelAndType): this.type = {
       nameInfo = f(nameInfo)

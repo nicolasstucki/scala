@@ -42,7 +42,7 @@ object JLineHistory {
         addLineToFile(item)
       }
     }
-    override def toString = "History(size = " + size + ", index = " + index + ")"
+    override def toString() = "History(size = " + size + ", index = " + index + ")"
   }
 
   def apply(): JLineHistory = try new JLineFileHistory catch { case x: Exception => new SimpleHistory() }

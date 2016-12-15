@@ -74,7 +74,7 @@ class Jar(file: File) extends Iterable[JarEntry] {
     Iterator continually in.getNextJarEntry() takeWhile (_ != null) foreach f
   }
   override def iterator: Iterator[JarEntry] = this.toList.iterator
-  override def toString = "" + file
+  override def toString() = "" + file
 }
 
 class JarWriter(val file: File, val manifest: Manifest) {

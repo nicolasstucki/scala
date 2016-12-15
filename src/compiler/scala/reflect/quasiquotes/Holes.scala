@@ -8,7 +8,7 @@ import scala.reflect.macros.TypecheckException
 class Rank private[Rank](val value: Int) extends AnyVal {
   def pred = { assert(value - 1 >= 0); new Rank(value - 1) }
   def succ = new Rank(value + 1)
-  override def toString = if (value == 0) "no dots" else "." * (value + 1)
+  override def toString() = if (value == 0) "no dots" else "." * (value + 1)
 }
 
 object Rank {

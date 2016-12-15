@@ -308,7 +308,7 @@ trait CompilerControl { self: Global =>
 
   case class ReloadItem(sources: List[SourceFile], response: Response[Unit]) extends WorkItem {
     def apply() = reload(sources, response)
-    override def toString = "reload "+sources
+    override def toString() = "reload "+sources
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -316,7 +316,7 @@ trait CompilerControl { self: Global =>
 
   case class FilesDeletedItem(sources: List[SourceFile], response: Response[Unit]) extends WorkItem {
     def apply() = filesDeleted(sources, response)
-    override def toString = "files deleted "+sources
+    override def toString() = "files deleted "+sources
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -324,7 +324,7 @@ trait CompilerControl { self: Global =>
 
   case class AskTypeAtItem(pos: Position, response: Response[Tree]) extends WorkItem {
     def apply() = self.getTypedTreeAt(pos, response)
-    override def toString = "typeat "+pos.source+" "+pos.show
+    override def toString() = "typeat "+pos.source+" "+pos.show
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -332,7 +332,7 @@ trait CompilerControl { self: Global =>
 
   case class AskTypeItem(source: SourceFile, forceReload: Boolean, response: Response[Tree]) extends WorkItem {
     def apply() = self.getTypedTree(source, forceReload, response)
-    override def toString = "typecheck"
+    override def toString() = "typecheck"
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -340,7 +340,7 @@ trait CompilerControl { self: Global =>
 
   case class AskTypeCompletionItem(pos: Position, response: Response[List[Member]]) extends WorkItem {
     def apply() = self.getTypeCompletion(pos, response)
-    override def toString = "type completion "+pos.source+" "+pos.show
+    override def toString() = "type completion "+pos.source+" "+pos.show
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -348,7 +348,7 @@ trait CompilerControl { self: Global =>
 
   case class AskScopeCompletionItem(pos: Position, response: Response[List[Member]]) extends WorkItem {
     def apply() = self.getScopeCompletion(pos, response)
-    override def toString = "scope completion "+pos.source+" "+pos.show
+    override def toString() = "scope completion "+pos.source+" "+pos.show
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -359,14 +359,14 @@ trait CompilerControl { self: Global =>
       moveToFront(List(source))
       enableIgnoredFile(source.file)
     }
-    override def toString = "dofirst "+source
+    override def toString() = "dofirst "+source
 
     def raiseMissing() = ()
   }
 
   case class AskLinkPosItem(sym: Symbol, source: SourceFile, response: Response[Position]) extends WorkItem {
     def apply() = self.getLinkPos(sym, source, response)
-    override def toString = "linkpos "+sym+" in "+source
+    override def toString() = "linkpos "+sym+" in "+source
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -374,7 +374,7 @@ trait CompilerControl { self: Global =>
 
   case class AskDocCommentItem(sym: Symbol, source: SourceFile, site: Symbol, fragments: List[(Symbol,SourceFile)], response: Response[(String, String, Position)]) extends WorkItem {
     def apply() = self.getDocComment(sym, source, site, fragments, response)
-    override def toString = "doc comment "+sym+" in "+source+" with fragments:"+fragments.mkString("(", ",", ")")
+    override def toString() = "doc comment "+sym+" in "+source+" with fragments:"+fragments.mkString("(", ",", ")")
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -382,7 +382,7 @@ trait CompilerControl { self: Global =>
 
   case class AskLoadedTypedItem(source: SourceFile, keepLoaded: Boolean, response: Response[Tree]) extends WorkItem {
     def apply() = self.waitLoadedTyped(source, response, keepLoaded, this.onCompilerThread)
-    override def toString = "wait loaded & typed "+source
+    override def toString() = "wait loaded & typed "+source
 
     def raiseMissing() =
       response raise new MissingResponse
@@ -390,7 +390,7 @@ trait CompilerControl { self: Global =>
 
   case class AskParsedEnteredItem(source: SourceFile, keepLoaded: Boolean, response: Response[Tree]) extends WorkItem {
     def apply() = self.getParsedEntered(source, keepLoaded, response, this.onCompilerThread)
-    override def toString = "getParsedEntered "+source+", keepLoaded = "+keepLoaded
+    override def toString() = "getParsedEntered "+source+", keepLoaded = "+keepLoaded
 
     def raiseMissing() =
       response raise new MissingResponse

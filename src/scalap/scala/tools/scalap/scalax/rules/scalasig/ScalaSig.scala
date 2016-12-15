@@ -98,7 +98,7 @@ case class ScalaSig(majorVersion: Int, minorVersion: Int, table: Seq[Int ~ ByteC
 
   implicit def applyRule[A](parser: ScalaSigParsers.Parser[A]) = ScalaSigParsers.expect(parser)(this)
 
-  override def toString = "ScalaSig version " + majorVersion + "." + minorVersion + {
+  override def toString() = "ScalaSig version " + majorVersion + "." + minorVersion + {
     for (i <- 0 until table.size) yield i + ":\t" + parseEntry(i) // + "\n\t" + getEntry(i)
   }.mkString("\n", "\n", "")
 

@@ -119,7 +119,7 @@ trait Exprs { self: Universe =>
 
     override def hashCode = mirror.hashCode * 31 + tree.hashCode
 
-    override def toString = "Expr["+staticType+"]("+tree+")"
+    override def toString() = "Expr["+staticType+"]("+tree+")"
   }
 
   /**

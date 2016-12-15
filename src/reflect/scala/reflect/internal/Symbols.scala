@@ -3329,7 +3329,7 @@ trait Symbols extends api.Symbols { self: SymbolTable =>
       else if (isAnonymousClass) "$anon"
       else nameString
     }
-    override def toString = (
+    override def toString() = (
       if (isAnonOrRefinementClass) anonOrRefinementString
       else super.toString
     )
@@ -3659,7 +3659,7 @@ trait Symbols extends api.Symbols { self: SymbolTable =>
     assert(validFrom != NoPeriod, this)
 
     private def phaseString = "%s: %s".format(phaseOf(validFrom), info)
-    override def toString = toList reverseMap (_.phaseString) mkString ", "
+    override def toString() = toList reverseMap (_.phaseString) mkString ", "
 
     def toList: List[TypeHistory] = this :: ( if (prev eq null) Nil else prev.toList )
 

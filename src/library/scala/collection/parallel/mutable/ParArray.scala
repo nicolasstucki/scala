@@ -126,7 +126,7 @@ self =>
       }
     }
 
-    override def toString = "ParArrayIterator(" + i + ", " + until + ")"
+    override def toString() = "ParArrayIterator(" + i + ", " + until + ")"
 
     /* overrides for efficiency */
 

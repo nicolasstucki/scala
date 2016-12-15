@@ -125,7 +125,7 @@ trait TraversableViewLike[+A,
 
     // XXX: As yet not dealt with, tail and init both call isEmpty.
     override def stringPrefix = self.stringPrefix
-    override def toString = viewToString
+    override def toString() = viewToString
   }
 
   trait EmptyViewT extends TransformedT[Nothing] {
@@ -304,5 +304,5 @@ trait TraversableViewLike[+A,
     // super.tail would also work as it is currently implemented in terms of drop(Int).
     if (isEmpty) super.tail else newDropped(1)
 
-  override def toString = viewToString
+  override def toString() = viewToString
 }

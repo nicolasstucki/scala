@@ -131,7 +131,7 @@ trait Opcodes { self: ICodes =>
      */
     case class THIS(clasz: Symbol) extends Instruction {
       /** Returns a string representation of this constant */
-      override def toString = "THIS(" + clasz.name + ")"
+      override def toString() = "THIS(" + clasz.name + ")"
 
       override def consumed = 0
       override def produced = 1
@@ -151,7 +151,7 @@ trait Opcodes { self: ICodes =>
      *    ->: ...:constant
      */
     case class CONSTANT(constant: Constant) extends Instruction {
-      override def toString = "CONSTANT(" + constant.escapedStringValue + ")"
+      override def toString() = "CONSTANT(" + constant.escapedStringValue + ")"
       override def consumed = 0
       override def produced = 1
 
@@ -612,7 +612,7 @@ trait Opcodes { self: ICodes =>
        *  not THROW, which came about organically.  It seems like the
        *  right thing, but can you confirm?
        */
-      override def toString = "THROW(" + clasz.name + ")"
+      override def toString() = "THROW(" + clasz.name + ")"
 
       override def consumed = 1
       override def produced = 0

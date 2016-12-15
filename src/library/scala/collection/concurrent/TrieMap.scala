@@ -399,7 +399,7 @@ private[concurrent] final class FailedNode[K, V](p: MainNode[K, V]) extends Main
 
   def cachedSize(ct: AnyRef): Int = throw new UnsupportedOperationException
 
-  override def toString = "FailedNode(%s)".format(p)
+  override def toString() = "FailedNode(%s)".format(p)
 }
 
 
@@ -583,7 +583,7 @@ private[collection] final class CNode[K, V](val bitmap: Int, val array: Array[Ba
     case in: INode[K, V] => Some(in.toString.drop(14) + "(" + in.gen + ")")
   }
 
-  override def toString = {
+  override def toString() = {
     val elems = collectLocalElems
     "CNode(sz: %d; %s)".format(elems.size, elems.sorted.mkString(", "))
   }

@@ -366,7 +366,7 @@ trait Macros extends MacroRuntimes with Traces with Helpers {
       val expandee = universe.analyzer.macroExpanderAttachment(expandeeTree).original orElse duplicateAndKeepPositions(expandeeTree)
     } with UnaffiliatedMacroContext {
       val prefix = Expr[Nothing](prefixTree)(TypeTag.Nothing)
-      override def toString = "MacroContext(%s@%s +%d)".format(expandee.symbol.name, expandee.pos, enclosingMacros.length - 1 /* exclude myself */)
+      override def toString() = "MacroContext(%s@%s +%d)".format(expandee.symbol.name, expandee.pos, enclosingMacros.length - 1 /* exclude myself */)
     }
   }
 
@@ -903,7 +903,7 @@ object MacrosStats {
 class Fingerprint private[Fingerprint](val value: Int) extends AnyVal {
   def paramPos = { assert(isTag, this); value }
   def isTag = value >= 0
-  override def toString = this match {
+  override def toString() = this match {
     case Other => "Other"
     case LiftedTyped => "Expr"
     case LiftedUntyped => "Tree"

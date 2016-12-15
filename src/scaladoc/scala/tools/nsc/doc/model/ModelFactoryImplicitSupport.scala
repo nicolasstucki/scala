@@ -396,7 +396,7 @@ trait ModelFactoryImplicitSupport {
 
     def isHiddenConversion = settings.hiddenImplicits(conversionQualifiedName)
 
-    override def toString = "Implcit conversion from " + sym.tpe + " to " + toType + " done by " + convSym
+    override def toString() = "Implcit conversion from " + sym.tpe + " to " + toType + " done by " + convSym
   }
 
   /* ========================= HELPER METHODS ========================== */

@@ -642,7 +642,7 @@ trait TraversableLike[+A, +Repr] extends Any
    *            string consists of the `stringPrefix` of this $coll, followed
    *            by all elements separated by commas and enclosed in parentheses.
    */
-  override def toString = mkString(stringPrefix + "(", ", ", ")")
+  override def toString() = mkString(stringPrefix + "(", ", ", ")")
 
   /** Defines the prefix of this object's `toString` representation.
    *

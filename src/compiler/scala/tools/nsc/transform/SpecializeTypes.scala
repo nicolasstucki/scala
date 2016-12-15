@@ -185,7 +185,7 @@ abstract class SpecializeTypes extends InfoTransform with TypingTransformers {
   }
 
   case class Overload(sym: Symbol, env: TypeEnv) {
-    override def toString = "specialized overload " + sym + " in " + env
+    override def toString() = "specialized overload " + sym + " in " + env
     def matchesSym(sym1: Symbol)  = sym.info =:= sym1.info
     def matchesEnv(env1: TypeEnv) = TypeEnv.includes(env, env1)
   }

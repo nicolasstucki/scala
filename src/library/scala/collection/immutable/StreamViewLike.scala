@@ -16,7 +16,7 @@ extends SeqView[A, Coll]
   }
 
   trait TransformedM[+B] extends StreamView[B, Coll] with super.TransformedS[B] {
-    override def toString = viewToString
+    override def toString() = viewToString
   }
 
   /** Explicit instantiation of the `Transformed` trait to reduce class file size in subclasses. */

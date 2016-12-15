@@ -239,7 +239,7 @@ object ManifestFactory {
   private class ClassTypeManifest[T](prefix: Option[Manifest[_]],
                                      val runtimeClass: Predef.Class[_],
                                      override val typeArguments: List[Manifest[_]]) extends Manifest[T] {
-    override def toString =
+    override def toString() =
       (if (prefix.isEmpty) "" else prefix.get.toString+"#") +
       (if (runtimeClass.isArray) "Array" else runtimeClass.getName) +
       argString
@@ -255,7 +255,7 @@ object ManifestFactory {
     new Manifest[T] {
       def runtimeClass = upperBound
       override val typeArguments = args.toList
-      override def toString = prefix.toString+"#"+name+argString
+      override def toString() = prefix.toString+"#"+name+argString
     }
 
   /** Manifest for the unknown type `_ >: L <: U` in an existential.
@@ -263,7 +263,7 @@ object ManifestFactory {
   def wildcardType[T](lowerBound: Manifest[_], upperBound: Manifest[_]): Manifest[T] =
     new Manifest[T] {
       def runtimeClass = upperBound.runtimeClass
-      override def toString =
+      override def toString() =
         "_" +
         (if (lowerBound eq Nothing) "" else " >: "+lowerBound) +
         (if (upperBound eq Nothing) "" else " <: "+upperBound)
@@ -273,6 +273,6 @@ object ManifestFactory {
   def intersectionType[T](parents: Manifest[_]*): Manifest[T] =
     new Manifest[T] {
       def runtimeClass = parents.head.runtimeClass
-      override def toString = parents.mkString(" with ")
+      override def toString() = parents.mkString(" with ")
     }
 }

@@ -466,7 +466,7 @@ object Byte extends AnyValCompanion {
   def unbox(x: java.lang.Object): Byte = x.asInstanceOf[java.lang.Byte].byteValue()
 
   /** The String representation of the scala.Byte companion object. */
-  override def toString = "object scala.Byte"
+  override def toString() = "object scala.Byte"
   /** Language mandated coercions from Byte to "wider" types. */
   import scala.language.implicitConversions
   implicit def byte2short(x: Byte): Short = x.toShort

@@ -153,7 +153,7 @@ trait MatchOptimization extends MatchTreeMaking with MatchAnalysis {
       def chainBefore(next: Tree)(casegen: Casegen): Tree = // assert(codegen eq optimizedCodegen)
         atPos(pos)(casegen.asInstanceOf[optimizedCodegen.OptimizedCasegen].flatMapCondStored(cond, storedCond, res, nextBinder, substitution(next).duplicate))
 
-      override def toString = "Memo"+((nextBinder.name, storedCond.name, cond, res, substitution))
+      override def toString() = "Memo"+((nextBinder.name, storedCond.name, cond, res, substitution))
     }
 
     case class ReusingCondTreeMaker(sharedPrefix: List[Test], toReused: TreeMaker => TreeMaker) extends TreeMaker { import CODE._
@@ -192,7 +192,7 @@ trait MatchOptimization extends MatchTreeMaking with MatchAnalysis {
         // and in its confusion it emits illegal casts (diagnosed by Grzegorz: checkcast T ; invokevirtual S.m, where T not a subtype of S)
         casegen.ifThenElseZero(REF(lastReusedTreeMaker.storedCond), substitution(next).duplicate)
       }
-      override def toString = "R"+((lastReusedTreeMaker.storedCond.name, substitution))
+      override def toString() = "R"+((lastReusedTreeMaker.storedCond.name, substitution))
     }
   }
 

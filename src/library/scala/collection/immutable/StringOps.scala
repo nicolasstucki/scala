@@ -44,7 +44,7 @@ final class StringOps(override val repr: String) extends AnyVal with StringLike[
     val end = if (until > length) length else until
     repr.substring(start, end)
   }
-  override def toString = repr
+  override def toString() = repr
   override def length = repr.length
 
   def seq = new WrappedString(repr)

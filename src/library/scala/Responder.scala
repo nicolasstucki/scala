@@ -84,5 +84,5 @@ abstract class Responder[+A] extends Serializable {
     }
   }
 
-  override def toString = "Responder"
+  override def toString() = "Responder"
 }

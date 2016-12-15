@@ -79,7 +79,7 @@ abstract class ZipArchive(override val file: JFile) extends AbstractFile with Eq
     // have to keep this name for compat with sbt's compiler-interface
     def getArchive: ZipFile = null
     override def underlyingSource = Some(self)
-    override def toString = self.path + "(" + path + ")"
+    override def toString() = self.path + "(" + path + ")"
   }
 
   /** ''Note:  This library is considered experimental and should not be used unless you know what you are doing.'' */

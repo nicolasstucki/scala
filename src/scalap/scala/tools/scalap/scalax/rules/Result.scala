@@ -19,7 +19,7 @@ package rules;
  * @see the Scala parser combinator
  */
 case class ~[+A, +B](_1: A, _2: B) {
-  override def toString = "(" + _1 + " ~ " + _2 + ")"
+  override def toString() = "(" + _1 + " ~ " + _2 + ")"
 }
 
 

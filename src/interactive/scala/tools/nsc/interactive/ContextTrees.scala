@@ -26,7 +26,7 @@ trait ContextTrees { self: Global =>
    */
   class ContextTree(val pos: Position, val context: Context, val children: ArrayBuffer[ContextTree]) {
     def this(pos: Position, context: Context) = this(pos, context, new ArrayBuffer[ContextTree])
-    override def toString = "ContextTree("+pos+", "+children+")"
+    override def toString() = "ContextTree("+pos+", "+children+")"
   }
 
   /** Returns the most precise context possible for the given `pos`.

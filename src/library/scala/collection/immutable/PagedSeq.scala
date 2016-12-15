@@ -205,7 +205,7 @@ extends scala.collection.AbstractSeq[T]
   def slice(start: Int): PagedSeq[T] = slice(start, UndeterminedEnd)
 
   /** Convert sequence to string */
-  override def toString = {
+  override def toString() = {
     val buf = new StringBuilder
     for (ch <- PagedSeq.this.iterator) buf append ch
     buf.toString

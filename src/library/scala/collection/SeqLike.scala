@@ -654,7 +654,7 @@ trait SeqLike[+A, +Repr] extends Any with IterableLike[A, Repr] with GenSeqLike[
 
   /* Need to override string, so that it's not the Function1's string that gets mixed in.
    */
-  override def toString = super[IterableLike].toString
+  override def toString() = super[IterableLike].toString
 }
 
 /** The companion object for trait `SeqLike`.

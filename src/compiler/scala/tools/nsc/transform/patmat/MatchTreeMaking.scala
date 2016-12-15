@@ -95,7 +95,7 @@ trait MatchTreeMaking extends MatchCodeGen with Debugging {
 
       def chainBefore(next: Tree)(casegen: Casegen): Tree = // assert(next eq EmptyTree)
         atPos(body.pos)(casegen.one(substitution(body))) // since SubstOnly treemakers are dropped, need to do it here
-      override def toString = "B"+((body, matchPt))
+      override def toString() = "B"+((body, matchPt))
     }
 
     case class SubstOnlyTreeMaker(prevBinder: Symbol, nextBinder: Symbol) extends TreeMaker {
@@ -103,7 +103,7 @@ trait MatchTreeMaking extends MatchCodeGen with Debugging {
 
       val localSubstitution = Substitution(prevBinder, CODE.REF(nextBinder))
       def chainBefore(next: Tree)(casegen: Casegen): Tree = substitution(next)
-      override def toString = "S"+ localSubstitution
+      override def toString() = "S"+ localSubstitution
     }
 
     sealed abstract class FunTreeMaker extends TreeMaker {
@@ -234,7 +234,7 @@ trait MatchTreeMaking extends MatchCodeGen with Debugging {
         )
       }
 
-      override def toString = "X"+((extractor, nextBinder.name))
+      override def toString() = "X"+((extractor, nextBinder.name))
     }
 
     /**
@@ -288,7 +288,7 @@ trait MatchTreeMaking extends MatchCodeGen with Debugging {
         }
       }
 
-      override def toString = "P"+((prevBinder.name,  extraCond getOrElse "", localSubstitution))
+      override def toString() = "P"+((prevBinder.name,  extraCond getOrElse "", localSubstitution))
     }
 
     object IrrefutableExtractorTreeMaker {
@@ -475,7 +475,7 @@ trait MatchTreeMaking extends MatchCodeGen with Debugging {
 
       def impliesBinderNonNull(binder: Symbol) = renderCondition(nonNullImpliedByTestChecker(binder))
 
-      override def toString = "TT"+((expectedTp, testedBinder.name, nextBinderTp))
+      override def toString() = "TT"+((expectedTp, testedBinder.name, nextBinderTp))
     }
 
     // need to substitute to deal with existential types -- TODO: deal with existentials better, don't substitute (see RichClass during quick.comp)
@@ -486,7 +486,7 @@ trait MatchTreeMaking extends MatchCodeGen with Debugging {
       // equals need not be well-behaved, so don't intersect with pattern's (stabilized) type (unlike MaybeBoundTyped's accumType, where it's required)
       val cond = codegen._equals(patTree, prevBinder)
       val res  = CODE.REF(prevBinder)
-      override def toString = "ET"+((prevBinder.name, patTree))
+      override def toString() = "ET"+((prevBinder.name, patTree))
     }
 
     case class AlternativesTreeMaker(prevBinder: Symbol, var altss: List[List[TreeMaker]], pos: Position) extends TreeMaker with NoNewBinders {
@@ -515,7 +515,7 @@ trait MatchTreeMaking extends MatchCodeGen with Debugging {
       val pos = guardTree.pos
 
       def chainBefore(next: Tree)(casegen: Casegen): Tree = casegen.flatMapGuard(substitution(guardTree), next)
-      override def toString = "G("+ guardTree +")"
+      override def toString() = "G("+ guardTree +")"
     }
 
     // combineExtractors changes the current substitution's of the tree makers in `treeMakers`

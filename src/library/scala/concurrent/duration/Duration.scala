@@ -172,7 +172,7 @@ object Duration {
    * '''''Use `eq` when checking an input of a method against this value.'''''
    */
   val Undefined: Infinite = new Infinite {
-    override def toString = "Duration.Undefined"
+    override def toString() = "Duration.Undefined"
     override def equals(other: Any) = false
     override def +(other: Duration): Duration = this
     override def -(other: Duration): Duration = this
@@ -231,7 +231,7 @@ object Duration {
    * matching its semantics in arithmetic operations.
    */
   val Inf: Infinite = new Infinite {
-    override def toString = "Duration.Inf"
+    override def toString() = "Duration.Inf"
     def compare(other: Duration) = other match {
       case x if x eq Undefined => -1 // Undefined != Undefined
       case x if x eq this      => 0  // `case Inf` will include null checks in the byte code
@@ -247,7 +247,7 @@ object Duration {
    * matching its semantics in arithmetic operations.
    */
   val MinusInf: Infinite = new Infinite {
-    override def toString = "Duration.MinusInf"
+    override def toString() = "Duration.MinusInf"
     def compare(other: Duration) = if (other eq this) 0 else -1
     def unary_- : Duration = Inf
     def toUnit(unit: TimeUnit): Double = Double.NegativeInfinity
@@ -596,7 +596,7 @@ final class FiniteDuration(val length: Long, val unit: TimeUnit) extends Duratio
   def fromNow: Deadline = Deadline.now + this
 
   private[this] def unitString = timeUnitName(unit) + ( if (length == 1) "" else "s" )
-  override def toString = "" + length + " " + unitString
+  override def toString() = "" + length + " " + unitString
 
   def compare(other: Duration) = other match {
     case x: FiniteDuration => toNanos compare x.toNanos

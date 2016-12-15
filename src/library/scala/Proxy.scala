@@ -32,7 +32,7 @@ trait Proxy extends Any {
       val x = that.asInstanceOf[AnyRef]
       (x eq this.asInstanceOf[AnyRef]) || (x eq self.asInstanceOf[AnyRef]) || (x equals self)
   }
-  override def toString = "" + self
+  override def toString() = "" + self
 }
 
 object Proxy {

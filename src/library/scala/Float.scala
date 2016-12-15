@@ -244,7 +244,7 @@ object Float extends AnyValCompanion {
   def unbox(x: java.lang.Object): Float = x.asInstanceOf[java.lang.Float].floatValue()
 
   /** The String representation of the scala.Float companion object. */
-  override def toString = "object scala.Float"
+  override def toString() = "object scala.Float"
   /** Language mandated coercions from Float to "wider" types. */
   import scala.language.implicitConversions
   implicit def float2double(x: Float): Double = x.toDouble

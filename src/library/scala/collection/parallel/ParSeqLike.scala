@@ -87,7 +87,7 @@ self =>
       }
     }
 
-    override def toString = "Elements(" + start + ", " + end + ")"
+    override def toString() = "Elements(" + start + ", " + end + ")"
   }
 
   /* ParallelSeq methods */
@@ -320,7 +320,7 @@ self =>
     _.distinct
   }
 
-  override def toString = seq.mkString(stringPrefix + "(", ", ", ")")
+  override def toString() = seq.mkString(stringPrefix + "(", ", ", ")")
 
   override def toSeq = this.asInstanceOf[ParSeq[T]]
 

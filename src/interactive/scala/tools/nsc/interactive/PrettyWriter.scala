@@ -37,5 +37,5 @@ class PrettyWriter(wr: Writer) extends Writer {
       wr.write(str, off, len)
     }
   }
-  override def toString = wr.toString
+  override def toString() = wr.toString
 }

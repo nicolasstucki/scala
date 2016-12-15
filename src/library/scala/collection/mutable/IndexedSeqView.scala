@@ -40,7 +40,7 @@ self =>
 
   trait TransformedX[B] extends IndexedSeqView[B, Coll] with super.TransformedS[B] {
     def update(idx: Int, elem: B): Unit
-    override def toString = viewToString
+    override def toString() = viewToString
   }
 
   /** Explicit instantiation of the `Transformed` trait to reduce class file size in subclasses. */

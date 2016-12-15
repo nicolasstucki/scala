@@ -68,7 +68,7 @@ object PathResolver {
     def javaUserClassPath   = propOrElse("java.class.path", "")
     def useJavaClassPath    = propOrFalse("scala.usejavacp")
 
-    override def toString = s"""
+    override def toString() = s"""
       |object Environment {
       |  scalaHome          = $scalaHome (useJavaClassPath = $useJavaClassPath)
       |  javaBootClassPath  = <${javaBootClassPath.length} chars>
@@ -115,7 +115,7 @@ object PathResolver {
     def scalaExtDirs = Environment.scalaExtDirs
     def scalaPluginPath = (scalaHomeDir / "misc" / "scala-devel" / "plugins").path
 
-    override def toString = s"""
+    override def toString() = s"""
       |object Defaults {
       |  scalaHome            = $scalaHome
       |  javaBootClassPath    = ${ppcp(javaBootClassPath)}
@@ -160,7 +160,7 @@ object PathResolver {
       (home flatMap jarAt) orElse (install flatMap jarAt) orElse (install map (_.parent) flatMap jarAt) orElse
         (jdkDir flatMap deeply)
     }
-    override def toString = s"""
+    override def toString() = s"""
       |object SupplementalLocations {
       |  platformTools        = $platformTools
       |}""".asLines
@@ -282,7 +282,7 @@ abstract class PathResolverBase[BaseClassPathType <: ClassFileLookup[AbstractFil
 
     lazy val containers = basis.flatten.distinct
 
-    override def toString = s"""
+    override def toString() = s"""
       |object Calculated {
       |  scalaHome            = $scalaHome
       |  javaBootClassPath    = ${ppcp(javaBootClassPath)}

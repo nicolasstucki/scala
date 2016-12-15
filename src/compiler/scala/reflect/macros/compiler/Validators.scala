@@ -87,7 +87,7 @@ trait Validators {
     private case class MacroImplSig(tparams: List[Symbol], paramss: List[List[Symbol]], ret: Type) {
       private def tparams_s = if (tparams.isEmpty) "" else tparams.map(_.defString).mkString("[", ", ", "]")
       private def paramss_s = paramss map (ps => ps.map(s => s"${s.name}: ${s.tpe_*}").mkString("(", ", ", ")")) mkString ""
-      override def toString = "MacroImplSig(" + tparams_s + paramss_s + ret + ")"
+      override def toString() = "MacroImplSig(" + tparams_s + paramss_s + ret + ")"
     }
 
     /** An actual macro implementation signature extracted from a macro implementation method.

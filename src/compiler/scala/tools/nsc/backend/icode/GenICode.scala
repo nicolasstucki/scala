@@ -1822,7 +1822,7 @@ abstract class GenICode extends SubComponent {
 
       var handlerCount = 0
 
-      override def toString =
+      override def toString() =
         s"package $packg { class $clazz { def $method { bb=$bb } } }"
 
       def loadException(ctx: Context, exh: ExceptionHandler, pos: Position) = {
@@ -2182,7 +2182,7 @@ abstract class GenICode extends SubComponent {
      * by a real JUMP instruction when all labels are resolved.
      */
     abstract class PseudoJUMP(label: Label) extends Instruction {
-      override def toString = s"PJUMP(${label.symbol})"
+      override def toString() = s"PJUMP(${label.symbol})"
       override def consumed = 0
       override def produced = 0
 

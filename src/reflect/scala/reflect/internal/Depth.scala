@@ -16,7 +16,7 @@ final class Depth private (val depth: Int) extends AnyVal with Ordered[Depth] {
   def isAnyDepth = this == AnyDepth
 
   def compare(that: Depth): Int = if (depth < that.depth) -1 else if (this == that) 0 else 1
-  override def toString = s"Depth($depth)"
+  override def toString() = s"Depth($depth)"
 }
 
 object Depth {

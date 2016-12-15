@@ -29,7 +29,7 @@ trait SemiLattice {
       case xs: TraversableOnce[_] => xs map tstring mkString " "
       case _                      => "" + x
     }
-    override def toString = "IState(" + tstring(vars) + ", " + tstring(stack) + ")"
+    override def toString() = "IState(" + tstring(vars) + ", " + tstring(stack) + ")"
   }
 
   /** Return the least upper bound of a and b. */

@@ -191,7 +191,7 @@ class Power[ReplValsImpl <: ReplVals : ru.TypeTag: ClassTag](val intp: IMain, re
     def shortClass        = runtimeClass.getName split "[$.]" last
     def baseClasses       = tpe.baseClasses
 
-    override def toString = value match {
+    override def toString() = value match {
       case Some(x)  => "%s (%s)".format(x, shortClass)
       case _        => runtimeClass.getName
     }
@@ -318,7 +318,7 @@ class Power[ReplValsImpl <: ReplVals : ru.TypeTag: ClassTag](val intp: IMain, re
   def unit(code: String)    = newCompilationUnit(code)
   def trees(code: String)   = parse(code) match { case parse.Success(trees) => trees; case _ => Nil }
 
-  override def toString = s"""
+  override def toString() = s"""
     |** Power mode status **
     |Default phase: ${phased.get}
     |Names: ${intp.unqualifiedIds mkString " "}

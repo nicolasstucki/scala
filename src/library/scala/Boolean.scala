@@ -129,7 +129,7 @@ object Boolean extends AnyValCompanion {
   def unbox(x: java.lang.Object): Boolean = x.asInstanceOf[java.lang.Boolean].booleanValue()
 
   /** The String representation of the scala.Boolean companion object. */
-  override def toString = "object scala.Boolean"
+  override def toString() = "object scala.Boolean"
 
 }
 

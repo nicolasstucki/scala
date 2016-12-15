@@ -129,7 +129,7 @@ class JLineCompletion(val intp: IMain) extends Completion with CompletionOutput 
         if (alts.nonEmpty) "" :: alts else Nil
       }
 
-    override def toString = "%s (%d members)".format(tp, members.size)
+    override def toString() = "%s (%d members)".format(tp, members.size)
   }
 
   class PackageCompletion(tp: Type) extends TypeMemberCompletion(tp) {
@@ -181,7 +181,7 @@ class JLineCompletion(val intp: IMain) extends Completion with CompletionOutput 
           default
       }
     }
-    override def toString = "<repl ids> (%s)".format(completions(0).size)
+    override def toString() = "<repl ids> (%s)".format(completions(0).size)
   }
 
   // user-issued wildcard imports like "import global._" or "import String._"

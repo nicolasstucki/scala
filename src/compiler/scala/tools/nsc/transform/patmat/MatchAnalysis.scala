@@ -204,7 +204,7 @@ trait MatchApproximation extends TreeAndTypeAnalysis with ScalaLogic with MatchT
         later.reuses = Some(this)
       }
       val id = { Test.currId += 1; Test.currId}
-      override def toString = s"T${id}C($prop)"
+      override def toString() = s"T${id}C($prop)"
     }
 
     class TreeMakersToPropsIgnoreNullChecks(root: Symbol) extends TreeMakersToProps(root) {
@@ -553,11 +553,11 @@ trait MatchAnalysis extends MatchApproximation {
       protected[MatchAnalyzer] def flattenConsArgs: List[CounterExample] = Nil
       def coveredBy(other: CounterExample): Boolean = this == other || other == WildcardExample
     }
-    case class ValueExample(c: ValueConst) extends CounterExample { override def toString = c.toString }
-    case class TypeExample(c: Const)  extends CounterExample { override def toString = "(_ : "+ c +")" }
+    case class ValueExample(c: ValueConst) extends CounterExample { override def toString() = c.toString }
+    case class TypeExample(c: Const)  extends CounterExample { override def toString() = "(_ : "+ c +")" }
     case class NegativeExample(eqTo: Const, nonTrivialNonEqualTo: List[Const]) extends CounterExample {
       // require(nonTrivialNonEqualTo.nonEmpty, nonTrivialNonEqualTo)
-      override def toString = {
+      override def toString() = {
         val negation =
           if (nonTrivialNonEqualTo.tail.isEmpty) nonTrivialNonEqualTo.head.toString
           else nonTrivialNonEqualTo.map(_.toString).sorted.mkString("(", ", ", ")")
@@ -578,10 +578,10 @@ trait MatchAnalysis extends MatchApproximation {
           case _ => super.coveredBy(other)
         }
 
-      override def toString = elems.mkString("List(", ", ", ")")
+      override def toString() = elems.mkString("List(", ", ", ")")
     }
     case class TupleExample(ctorArgs: List[CounterExample]) extends CounterExample {
-      override def toString = ctorArgs.mkString("(", ", ", ")")
+      override def toString() = ctorArgs.mkString("(", ", ", ")")
 
       override def coveredBy(other: CounterExample): Boolean =
         other match {
@@ -591,11 +591,11 @@ trait MatchAnalysis extends MatchApproximation {
         }
     }
     case class ConstructorExample(cls: Symbol, ctorArgs: List[CounterExample]) extends CounterExample {
-      override def toString = cls.decodedName + (if (cls.isModuleClass) "" else ctorArgs.mkString("(", ", ", ")"))
+      override def toString() = cls.decodedName + (if (cls.isModuleClass) "" else ctorArgs.mkString("(", ", ", ")"))
     }
 
-    case object WildcardExample extends CounterExample { override def toString = "_" }
-    case object NoExample extends CounterExample { override def toString = "??" }
+    case object WildcardExample extends CounterExample { override def toString() = "_" }
+    case object NoExample extends CounterExample { override def toString() = "??" }
 
     // returns a mapping from variable to
     // equal and notEqual symbols
@@ -852,7 +852,7 @@ trait MatchAnalysis extends MatchApproximation {
             debug.patmatResult("described as")(res)
           }
 
-        override def toString = toCounterExample().toString
+        override def toString() = toCounterExample().toString
       }
 
       // slurp in information from other variables

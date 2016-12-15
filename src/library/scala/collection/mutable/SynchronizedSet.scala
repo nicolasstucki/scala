@@ -90,7 +90,7 @@ trait SynchronizedSet[A] extends Set[A] {
     super.toList
   }
 
-  override def toString = synchronized {
+  override def toString() = synchronized {
     super.toString
   }
 

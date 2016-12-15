@@ -106,7 +106,7 @@ abstract class Reporter {
 
 // TODO: move into superclass once partest cuts tie on Severity
 abstract class ReporterImpl extends Reporter {
-  class Severity(val id: Int)(name: String) { var count: Int = 0 ; override def toString = name}
+  class Severity(val id: Int)(name: String) { var count: Int = 0 ; override def toString() = name}
   object INFO    extends Severity(0)("INFO")
   object WARNING extends Severity(1)("WARNING")
   object ERROR   extends Severity(2)("ERROR")

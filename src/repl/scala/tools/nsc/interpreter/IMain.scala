@@ -1021,7 +1021,7 @@ class IMain(@BeanProperty val factory: ScriptEngineFactory, initialSettings: Set
       catch { case ex: Throwable => (lineRep.bindError(ex), false) }
     }
 
-    override def toString = "Request(line=%s, %s trees)".format(line, trees.size)
+    override def toString() = "Request(line=%s, %s trees)".format(line, trees.size)
   }
 
   def createBindings: Bindings = new IBindings {

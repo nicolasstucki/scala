@@ -117,7 +117,7 @@ trait TypeKinds { self: ICodes =>
 
   sealed abstract class ValueTypeKind extends TypeKind {
     override def isValueType = true
-    override def toString = {
+    override def toString() = {
       this.getClass.getName stripSuffix "$" dropWhile (_ != '$') drop 1
     }
     def <:<(other: TypeKind): Boolean = this eq other
@@ -271,7 +271,7 @@ trait TypeKinds { self: ICodes =>
 
   /** A class type. */
   final case class REFERENCE(cls: Symbol) extends TypeKind {
-    override def toString = "REF(" + cls + ")"
+    override def toString() = "REF(" + cls + ")"
     assert(cls ne null,
            "REFERENCE to null class symbol.")
     assert(cls != ArrayClass,
@@ -358,7 +358,7 @@ trait TypeKinds { self: ICodes =>
   * way. For JVM it would have been a REFERENCE to 'StringBuffer'.
   */
   case object ConcatClass extends TypeKind {
-    override def toString = "ConcatClass"
+    override def toString() = "ConcatClass"
     def <:<(other: TypeKind): Boolean = this eq other
 
     /**

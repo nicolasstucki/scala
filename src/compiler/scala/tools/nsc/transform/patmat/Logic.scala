@@ -135,7 +135,7 @@ trait Logic extends Debugging  {
 
       private val id: Int = Sym.nextSymId
 
-      override def toString = s"$variable=$const#$id"
+      override def toString() = s"$variable=$const#$id"
     }
 
     object Sym {
@@ -590,7 +590,7 @@ trait ScalaLogic extends Interface with Logic with TreeAndTypeAnalysis {
         }
         s"$this: ${staticTp}${domain_s} // = $path"
       }
-      override def toString = "V"+ id
+      override def toString() = "V"+ id
     }
 
 
@@ -691,7 +691,7 @@ trait ScalaLogic extends Interface with Logic with TreeAndTypeAnalysis {
 
       val wideTp = widenToClass(tp)
       def isValue = false
-      override def toString = tp.toString //+"#"+ id
+      override def toString() = tp.toString //+"#"+ id
     }
 
     // p is a unique type or a constant value
@@ -745,7 +745,7 @@ trait ScalaLogic extends Interface with Logic with TreeAndTypeAnalysis {
       def wideTp = ConstantNull
 
       def isValue = true
-      override def toString = "null"
+      override def toString() = "null"
     }
   }
 }

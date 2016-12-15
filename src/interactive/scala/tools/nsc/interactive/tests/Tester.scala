@@ -76,7 +76,7 @@ class Tester(ntests: Int, inputs: Array[SourceFile], settings: Settings) {
     private var pos = start
     private var deleted: List[Char] = List()
 
-    override def toString =
+    override def toString() =
       "In "+inputs(sfidx)+" at "+start+" take "+nchars+" to "+
       (if (toLeft) "left" else "right")
 
@@ -170,7 +170,7 @@ class Tester(ntests: Int, inputs: Array[SourceFile], settings: Settings) {
 
   case class ErrorTrace(
     sfidx: Int, changes: Seq[Change], infos: scala.collection.Set[reporter.Info], content: Array[Char]) {
-    override def toString =
+    override def toString() =
       "Sourcefile: "+inputs(sfidx)+
       "\nChanges:\n  "+changes.mkString("\n  ")+
       "\nErrors:\n  "+infos.mkString("\n  ")+

@@ -51,12 +51,12 @@ class TableDef[T](_cols: Column[T]*) {
     def toFormattedSeq = argLists map (xs => rowFormat.format(xs: _*))
     def allToSeq = headers ++ toFormattedSeq
 
-    override def toString = allToSeq mkString "\n"
+    override def toString() = allToSeq mkString "\n"
   }
 
   def table(rows: Seq[T]) = new Table(rows)
 
-  override def toString = cols.mkString("TableDef(", ", ", ")")
+  override def toString() = cols.mkString("TableDef(", ", ", ")")
 }
 
 object TableDef {
@@ -66,7 +66,7 @@ object TableDef {
       val justify = if (left) "-" else ""
       "%" + justify + maxWidth(elems) + "s"
     }
-    override def toString = {
+    override def toString() = {
       val justify = if (left) "<<" else ">>"
       justify + "(" + name + ")"
     }

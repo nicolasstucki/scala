@@ -47,7 +47,7 @@ class WrappedString(val self: String) extends AbstractSeq[Char] with IndexedSeq[
     new WrappedString(repr.substring(start, end))
   }
   override def length = self.length
-  override def toString = self
+  override def toString() = self
 }
 
 /** A companion object for wrapped strings.

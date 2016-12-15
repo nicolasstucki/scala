@@ -31,5 +31,5 @@ object NoAbstractFile extends AbstractFile {
   def output: java.io.OutputStream = null
   def path: String = ""
   override def toByteArray = Array[Byte]()
-  override def toString = "<no file>"
+  override def toString() = "<no file>"
 }

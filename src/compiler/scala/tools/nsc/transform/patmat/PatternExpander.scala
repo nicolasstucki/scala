@@ -46,10 +46,10 @@ trait PatternExpander[Pattern, Type] {
     def sequenceList = if (exists) sequenceType :: Nil else Nil
     def repeatedList = if (exists) repeatedType :: Nil else Nil
 
-    override def toString = s"${elementType}*"
+    override def toString() = s"${elementType}*"
   }
   object NoRepeated extends Repeated(NoType, NoType, NoType) {
-    override def toString = "<none>"
+    override def toString() = "<none>"
   }
 
   final case class Patterns(fixed: List[Pattern], star: Pattern) {
@@ -60,7 +60,7 @@ trait PatternExpander[Pattern, Type] {
     def starPatterns = if (hasStar) star :: Nil else Nil
     def all          = fixed ::: starPatterns
 
-    override def toString = all mkString ", "
+    override def toString() = all mkString ", "
   }
 
   /** An 'extractor' can be a case class or an unapply or unapplySeq method.
@@ -104,11 +104,11 @@ trait PatternExpander[Pattern, Type] {
       case tp :: Nil => tp
       case tps       => tps.mkString("(", ", ", ")")
     }
-    override def toString = "%s => %s".format(whole, offeringString)
+    override def toString() = "%s => %s".format(whole, offeringString)
   }
 
   final case class TypedPat(pat: Pattern, tpe: Type) {
-    override def toString = s"$pat: $tpe"
+    override def toString() = s"$pat: $tpe"
   }
 
   /** If elementArity is...
@@ -144,7 +144,7 @@ trait PatternExpander[Pattern, Type] {
     private def elements    = elementPats map typedAsElement
     private def stars       = patterns.starPatterns map typedAsSequence
 
-    override def toString = s"""
+    override def toString() = s"""
       |Aligned {
       |   patterns  $patterns
       |  extractor  $extractor

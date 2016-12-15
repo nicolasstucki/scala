@@ -31,7 +31,7 @@ package object scala {
 
   // A dummy used by the specialization annotation.
   val AnyRef = new Specializable {
-    override def toString = "object AnyRef"
+    override def toString() = "object AnyRef"
   }
 
   type TraversableOnce[+A] = scala.collection.TraversableOnce[A]

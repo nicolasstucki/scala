@@ -229,6 +229,6 @@ self =>
    *           Unless overridden this is simply `"Set"`.
    */
   override def stringPrefix: String = "Set"
-  override def toString = super[IterableLike].toString
+  override def toString() = super[IterableLike].toString
 
 }

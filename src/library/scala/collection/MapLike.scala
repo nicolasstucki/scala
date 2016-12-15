@@ -350,6 +350,6 @@ self =>
   override def stringPrefix: String = "Map"
 
   override /*PartialFunction*/
-  def toString = super[IterableLike].toString
+  def toString() = super[IterableLike].toString
 
 }

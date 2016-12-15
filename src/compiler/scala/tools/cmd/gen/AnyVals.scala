@@ -268,7 +268,7 @@ import scala.language.implicitConversions"""
 
       decl + body + "\n"
     }
-    override def toString = name
+    override def toString() = name
   }
 }
 
@@ -318,7 +318,7 @@ def box(x: @name@): @boxed@ = @boxImpl@
 def unbox(x: java.lang.Object): @name@ = @unboxImpl@
 
 /** The String representation of the scala.@name@ companion object. */
-override def toString = "object scala.@name@"
+override def toString() = "object scala.@name@"
 """
 
   def nonUnitCompanions = ""  // todo

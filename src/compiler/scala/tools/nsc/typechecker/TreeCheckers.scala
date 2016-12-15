@@ -24,7 +24,7 @@ abstract class TreeCheckers extends Analyzer {
     def isEmpty  = lost.isEmpty && gained.isEmpty
     def lost_s   = if (lost.isEmpty) "" else lost.mkString("lost: ", ", ", "")
     def gained_s = if (gained.isEmpty) "" else gained.mkString("gained: ", ", ", "")
-    override def toString = ojoin(lost_s, gained_s)
+    override def toString() = ojoin(lost_s, gained_s)
   }
 
   def diffList[T](xs: List[T], ys: List[T]): DiffResult[T] =

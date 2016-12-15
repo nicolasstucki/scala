@@ -42,5 +42,5 @@ trait NamedParam {
   def name: String
   def tpe: String
   def value: Any
-  override def toString = name + ": " + tpe
+  override def toString() = name + ": " + tpe
 }

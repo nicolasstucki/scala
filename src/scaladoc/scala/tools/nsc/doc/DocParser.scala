@@ -63,7 +63,7 @@ object DocParser {
     def nameChain: List[Name] = (enclosing :+ docDef.definition) collect { case x: DefTree => x.name }
     def raw: String           = docDef.comment.raw
 
-    override def toString = (
+    override def toString() = (
       nameChain.init.map(x => if (x.isTypeName) x + "#" else x + ".").mkString + nameChain.last
     )
   }

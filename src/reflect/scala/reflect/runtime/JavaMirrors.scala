@@ -166,7 +166,7 @@ private[scala] trait JavaMirrors extends internal.SymbolTable with api.JavaUnive
       override def setOriginal(t: Tree): this.type = throw new Exception("setOriginal inapplicable for " + this)
       override def pos: Position = NoPosition
       override def setPos(pos: Position): this.type = throw new Exception("setPos inapplicable for " + this)
-      override def toString = completeAnnotationToString(this)
+      override def toString() = completeAnnotationToString(this)
 
       // todo. find out the exact order of assocs as they are written in the class file
       // currently I'm simply sorting the methods to guarantee stability of the output
@@ -257,7 +257,7 @@ private[scala] trait JavaMirrors extends internal.SymbolTable with api.JavaUnive
         checkMemberOf(mod, symbol)
         new JavaModuleMirror(instance.asInstanceOf[AnyRef], mod)
       }
-      override def toString = s"instance mirror for $instance"
+      override def toString() = s"instance mirror for $instance"
     }
 
     // caches value class metadata, so that we minimize the work that needs to be done during Mirror.apply
@@ -289,7 +289,7 @@ private[scala] trait JavaMirrors extends internal.SymbolTable with api.JavaUnive
         jfield.set(receiver, if (isDerivedValueClass) unboxer.invoke(value) else value)
       }
 
-      override def toString = s"field mirror for ${showDecl(symbol)} (bound to $receiver)"
+      override def toString() = s"field mirror for ${showDecl(symbol)} (bound to $receiver)"
     }
 
     // the "symbol == Any_getClass || symbol == Object_getClass" test doesn't cut it
@@ -342,7 +342,7 @@ private[scala] trait JavaMirrors extends internal.SymbolTable with api.JavaUnive
         else result
       }
 
-      override def toString = {
+      override def toString() = {
         val what = if (symbol.isConstructor) "constructor mirror" else "method mirror"
         s"$what for ${showDecl(symbol)} (bound to $receiver)"
       }
@@ -440,7 +440,7 @@ private[scala] trait JavaMirrors extends internal.SymbolTable with api.JavaUnive
     private class BytecodelessMethodMirror[T: ClassTag](val receiver: T, val symbol: MethodSymbol)
             extends MethodMirror {
       def bind(newReceiver: Any) = new BytecodelessMethodMirror(newReceiver.asInstanceOf[T], symbol)
-      override def toString = s"bytecodeless method mirror for ${showDecl(symbol)} (bound to $receiver)"
+      override def toString() = s"bytecodeless method mirror for ${showDecl(symbol)} (bound to $receiver)"
 
       def apply(args: Any*): Any = {
         // checking type conformance is too much of a hassle, so we don't do it here
@@ -513,7 +513,7 @@ private[scala] trait JavaMirrors extends internal.SymbolTable with api.JavaUnive
         checkConstructorOf(constructor, symbol)
         mkMethodMirror(outer, constructor)
       }
-      override def toString = s"class mirror for ${symbol.fullName} (bound to $outer)"
+      override def toString() = s"class mirror for ${symbol.fullName} (bound to $outer)"
     }
 
     private class JavaModuleMirror(val outer: AnyRef, val symbol: ModuleSymbol)
@@ -527,7 +527,7 @@ private[scala] trait JavaMirrors extends internal.SymbolTable with api.JavaUnive
           if (outer == null) staticSingletonInstance(classToJava(symbol.moduleClass.asClass))
           else innerSingletonInstance(outer, symbol.name.toString)
       }
-      override def toString = s"module mirror for ${symbol.fullName} (bound to $outer)"
+      override def toString() = s"module mirror for ${symbol.fullName} (bound to $outer)"
     }
 
 // -------------------- Java to Scala  -----------------------------------

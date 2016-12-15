@@ -39,7 +39,7 @@ trait Entity {
   def toRoot: List[Entity]
 
   /** The qualified name of this entity. */
-  override def toString = qualifiedName
+  override def toString() = qualifiedName
 
   /** The Scaladoc universe of which this entity is a member. */
   def universe: Universe
@@ -533,7 +533,7 @@ trait ImplicitInScopeConstraint extends Constraint {
   def implicitType: TypeEntity
 
   /** toString for debugging */
-  override def toString = "an implicit _: " + implicitType.name + " must be in scope"
+  override def toString() = "an implicit _: " + implicitType.name + " must be in scope"
 }
 
 trait TypeClassConstraint extends ImplicitInScopeConstraint with TypeParamConstraint {
@@ -541,7 +541,7 @@ trait TypeClassConstraint extends ImplicitInScopeConstraint with TypeParamConstr
   def typeClassEntity: TemplateEntity
 
   /** toString for debugging */
-  override def toString = typeParamName + " is a class of type " + typeClassEntity.qualifiedName + " (" +
+  override def toString() = typeParamName + " is a class of type " + typeClassEntity.qualifiedName + " (" +
     typeParamName + ": " + typeClassEntity.name + ")"
 }
 
@@ -550,7 +550,7 @@ trait KnownTypeClassConstraint extends TypeClassConstraint {
   def typeExplanation: (String) => String
 
   /** toString for debugging */
-  override def toString = typeExplanation(typeParamName) + " (" + typeParamName + ": " + typeClassEntity.name + ")"
+  override def toString() = typeExplanation(typeParamName) + " (" + typeParamName + ": " + typeClassEntity.name + ")"
 }
 
 /** A constraint involving a type parameter */
@@ -563,7 +563,7 @@ trait EqualTypeParamConstraint extends TypeParamConstraint {
   /** The rhs */
   def rhs: TypeEntity
   /** toString for debugging */
-  override def toString = typeParamName + " is " + rhs.name + " (" + typeParamName + " =:= " + rhs.name + ")"
+  override def toString() = typeParamName + " is " + rhs.name + " (" + typeParamName + " =:= " + rhs.name + ")"
 }
 
 trait BoundedTypeParamConstraint extends TypeParamConstraint {
@@ -574,7 +574,7 @@ trait BoundedTypeParamConstraint extends TypeParamConstraint {
   def upperBound: TypeEntity
 
   /** toString for debugging */
-  override def toString = typeParamName + " is a superclass of " + lowerBound.name + " and a subclass of " +
+  override def toString() = typeParamName + " is a superclass of " + lowerBound.name + " and a subclass of " +
     upperBound.name + " (" + typeParamName + " >: " + lowerBound.name + " <: " + upperBound.name + ")"
 }
 
@@ -583,7 +583,7 @@ trait LowerBoundedTypeParamConstraint extends TypeParamConstraint {
   def lowerBound: TypeEntity
 
   /** toString for debugging */
-  override def toString = typeParamName + " is a superclass of " + lowerBound.name + " (" + typeParamName + " >: " +
+  override def toString() = typeParamName + " is a superclass of " + lowerBound.name + " (" + typeParamName + " >: " +
     lowerBound.name + ")"
 }
 
@@ -592,6 +592,6 @@ trait UpperBoundedTypeParamConstraint extends TypeParamConstraint {
   def upperBound: TypeEntity
 
   /** toString for debugging */
-  override def toString = typeParamName + " is a subclass of " + upperBound.name + " (" + typeParamName + " <: " +
+  override def toString() = typeParamName + " is a subclass of " + upperBound.name + " (" + typeParamName + " <: " +
     upperBound.name + ")"
 }

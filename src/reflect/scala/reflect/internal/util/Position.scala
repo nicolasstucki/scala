@@ -69,7 +69,7 @@ class TransparentPosition(sourceIn: SourceFile, startIn: Int, pointIn: Int, endI
 }
 case object NoPosition extends UndefinedPosition
 case class FakePos(msg: String) extends UndefinedPosition {
-  override def toString = msg
+  override def toString() = msg
 }
 
 sealed abstract class DefinedPosition extends Position {
@@ -79,7 +79,7 @@ sealed abstract class DefinedPosition extends Position {
     case _                     => false
   }
   override def hashCode = Seq[Any](source.file, start, point, end).##
-  override def toString = (
+  override def toString() = (
     if (isRange) s"RangePosition($canonicalPath, $start, $point, $end)"
     else s"source-$canonicalPath,line-$line,$pointMessage$point"
   )

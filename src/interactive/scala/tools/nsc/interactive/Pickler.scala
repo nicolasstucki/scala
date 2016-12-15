@@ -137,7 +137,7 @@ object Pickler {
    */
   class UnpickleFailure(msg: => String, val rd: Lexer) extends Unpickled[Nothing] {
     def errMsg = msg
-    override def toString = "Failure at "+rd.tokenPos+":\n"+msg
+    override def toString() = "Failure at "+rd.tokenPos+":\n"+msg
   }
 
   private def errorExpected(rd: Lexer, msg: => String) =
