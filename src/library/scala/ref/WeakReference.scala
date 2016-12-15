@@ -30,7 +30,7 @@ object WeakReference {
   /** Optionally returns the referenced value, or `None` if that value no longer exists */
   def unapply[T <: AnyRef](wr: WeakReference[T]): Option[T] = {
     val x = wr.underlying.get
-    if (x != null) Some(x) else None
+    if (x.asInstanceOf[AnyRef] != null) Some(x) else None
   }
 }
 
