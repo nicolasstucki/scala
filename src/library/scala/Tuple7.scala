@@ -22,7 +22,7 @@ package scala
  *  @param  _7   Element 7 of this Tuple7
  */
 @deprecatedInheritance("Tuples will be made final in a future version.", "2.11.0")
-case class Tuple7[+T1, +T2, +T3, +T4, +T5, +T6, +T7](_1: T1, _2: T2, _3: T3, _4: T4, _5: T5, _6: T6, _7: T7)
+case class Tuple7[+T1, +T2, +T3, +T4, +T5, +T6, +T7](_1_st: T1, _2_nd: T2, _3_rd: T3, _4_th: T4, _5_th: T5, _6_th: T6, _7_th: T7)
   extends Product7[T1, T2, T3, T4, T5, T6, T7]
 {
   override def toString() = "(" + _1 + "," + _2 + "," + _3 + "," + _4 + "," + _5 + "," + _6 + "," + _7 + ")"
