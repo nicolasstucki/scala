@@ -129,8 +129,8 @@ trait ArrayOps[T] extends Any with ArrayLike[T, Array[T]] with CustomParalleliza
     var i = 0
     while (i < length) {
       val e = apply(i)
-      a1(i) = e._1
-      a2(i) = e._2
+      a1(i) = asPair(e)._1
+      a2(i) = asPair(e)._2
       i += 1
     }
     (a1, a2)
@@ -162,9 +162,9 @@ trait ArrayOps[T] extends Any with ArrayLike[T, Array[T]] with CustomParalleliza
     var i = 0
     while (i < length) {
       val e = apply(i)
-      a1(i) = e._1
-      a2(i) = e._2
-      a3(i) = e._3
+      a1(i) = asTriple(e)._1
+      a2(i) = asTriple(e)._2
+      a3(i) = asTriple(e)._3
       i += 1
     }
     (a1, a2, a3)
