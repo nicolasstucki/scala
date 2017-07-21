@@ -871,7 +871,7 @@ trait BCodeBodyBuilder extends BCodeSkelBuilder {
 
       if(!int.shouldEmitJumpAfterLabels) genNormalBlock
       else {
-        val (prefixLabels: List[LabelDef], stats1) = stats.span {
+        val (prefixLabels: List[LabelDef] @unchecked, stats1) = stats.span {
           case t@LabelDef(_, _, _) => true
           case _ => false
         }
